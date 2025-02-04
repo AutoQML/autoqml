@@ -83,6 +83,7 @@ class TestSearchSpace(TestCase):
                 'classification__qsvc__chebyshev_alpha',
                 'classification__qsvc__quantum_kernel',
                 'classification__qsvc__measurement',
+                'classification__qsvc__trial_id',
                 'imputation__constant__constant',
             }
         )
