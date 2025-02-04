@@ -1,13 +1,13 @@
 import logging
 from typing import Callable
-from autoqml_lib.automl import AutoQMLTimeSeriesClassification
-from autoqml_lib.optimizer.metric import Accuracy
-from autoqml_lib.messages import AutoQMLFitCommand
-from autoqml_lib.meta_learning.datastatistics import TabularStatistics
+from autoqml.automl import AutoQMLTimeSeriesClassification
+from autoqml.optimizer.metric import Accuracy
+from autoqml.messages import AutoQMLFitCommand
+from autoqml.meta_learning.datastatistics import TabularStatistics
 from datetime import timedelta
 
-from autoqml_lib.optimizer.optimizer import RayOptimizer
-from autoqml_lib.search_space import Configuration, SearchSpace
+from autoqml.optimizer.optimizer import RayOptimizer
+from autoqml.search_space import Configuration, SearchSpace
 from optuna import Trial
 from sklearn.datasets import make_classification
 

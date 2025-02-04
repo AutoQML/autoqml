@@ -2,32 +2,32 @@ from datetime import timedelta
 import ray
 import sklearn
 import sklearn.datasets
-from autoqml_lib.automl import AutoQMLTabularClassification, AutoQMLTabularRegression
-from autoqml_lib.messages import AutoQMLFitCommand
-from autoqml_lib.search_space.classification.classic.gaussian_process_classifier import GaussianProcessClassifier
-from autoqml_lib.search_space.classification.classic.decision_tree_classifier import DecisionTreeClassifier
-from autoqml_lib.search_space.classification.classic.perceptron import Perceptron
-from autoqml_lib.search_space.classification.classic.random_forest_classifier import RandomForestClassifier
-from autoqml_lib.search_space.classification.classic.ridge_classifier import RidgeClassifier
-from autoqml_lib.search_space.classification.classic.svc import SVC
-from autoqml_lib.search_space.classification.classic.logistic_regression_classifier import LogisticRegressor
+from autoqml.automl import AutoQMLTabularClassification, AutoQMLTabularRegression
+from autoqml.messages import AutoQMLFitCommand
+from autoqml.search_space.classification.classic.gaussian_process_classifier import GaussianProcessClassifier
+from autoqml.search_space.classification.classic.decision_tree_classifier import DecisionTreeClassifier
+from autoqml.search_space.classification.classic.perceptron import Perceptron
+from autoqml.search_space.classification.classic.random_forest_classifier import RandomForestClassifier
+from autoqml.search_space.classification.classic.ridge_classifier import RidgeClassifier
+from autoqml.search_space.classification.classic.svc import SVC
+from autoqml.search_space.classification.classic.logistic_regression_classifier import LogisticRegressor
 
-from autoqml_lib.search_space.regression.classic.gaussian_process_regressor import GaussianProcessRegressor
-from autoqml_lib.search_space.regression.classic.decision_tree_regressor import DecisionTreeRegressor
-from autoqml_lib.search_space.regression.classic.kernel_ridge import KernelRidge
-from autoqml_lib.search_space.regression.classic.linear_regressor import LinearRegressor
-from autoqml_lib.search_space.regression.classic.random_forest_regressor import RandomForestRegressor
-from autoqml_lib.search_space.regression.classic.svr import SVR
+from autoqml.search_space.regression.classic.gaussian_process_regressor import GaussianProcessRegressor
+from autoqml.search_space.regression.classic.decision_tree_regressor import DecisionTreeRegressor
+from autoqml.search_space.regression.classic.kernel_ridge import KernelRidge
+from autoqml.search_space.regression.classic.linear_regressor import LinearRegressor
+from autoqml.search_space.regression.classic.random_forest_regressor import RandomForestRegressor
+from autoqml.search_space.regression.classic.svr import SVR
 
-from autoqml_lib.search_space.regression.quantum.qsvr import QSVR
-from autoqml_lib.search_space.regression.quantum.qgpr import QGPR
-from autoqml_lib.search_space.regression.quantum.qkrr import QKRR
-from autoqml_lib.search_space.regression.quantum.qnnr import QNNRegressor
-from autoqml_lib.search_space.regression.quantum.qrcr import QRCRegressor
-from autoqml_lib.search_space.classification.quantum.qgpc import QGPC
-from autoqml_lib.search_space.classification.quantum.qsvc import QSVC
-from autoqml_lib.search_space.classification.quantum.qnnc import QNNClassifier
-from autoqml_lib.search_space.classification.quantum.qrcc import QRCClassifier
+from autoqml.search_space.regression.quantum.qsvr import QSVR
+from autoqml.search_space.regression.quantum.qgpr import QGPR
+from autoqml.search_space.regression.quantum.qkrr import QKRR
+from autoqml.search_space.regression.quantum.qnnr import QNNRegressor
+from autoqml.search_space.regression.quantum.qrcr import QRCRegressor
+from autoqml.search_space.classification.quantum.qgpc import QGPC
+from autoqml.search_space.classification.quantum.qsvc import QSVC
+from autoqml.search_space.classification.quantum.qnnc import QNNClassifier
+from autoqml.search_space.classification.quantum.qrcc import QRCClassifier
 import pytest
 
 
@@ -418,9 +418,9 @@ def test_SVC(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "svc",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "svc",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -442,9 +442,9 @@ def test_RidgeClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "ridge_classifier",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "ridge_classifier",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -466,9 +466,9 @@ def test_RandomForestClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "random_forest_classifier",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "random_forest_classifier",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -490,9 +490,9 @@ def test_Perceptron(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "perceptron",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "perceptron",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -514,9 +514,9 @@ def test_GaussianProcessClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "gaussian_process_classifier",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "gaussian_process_classifier",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -538,11 +538,11 @@ def test_DecisionTreeClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "decision_tree_classifier",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
-            "autoqml_lib.search_space.classification.classic.decision_tree_classifier.decision_tree_classifier.DecisionTreeClassifier__max_depth": 1,
-            "autoqml_lib.search_space.classification.classic.decision_tree_classifier.decision_tree_classifier.DecisionTreeClassifier__min_samples_split": 0.01,
+            "autoqml.search_space.classification.ClassificationChoice__choice": "decision_tree_classifier",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.classic.decision_tree_classifier.decision_tree_classifier.DecisionTreeClassifier__max_depth": 1,
+            "autoqml.search_space.classification.classic.decision_tree_classifier.decision_tree_classifier.DecisionTreeClassifier__min_samples_split": 0.01,
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -564,9 +564,9 @@ def test_LogisticRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.ClassificationChoice__choice": "logistic_regression_classifier",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.ClassificationChoice__choice": "logistic_regression_classifier",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(n_samples=10, n_features=4, n_classes=2)
@@ -587,9 +587,9 @@ def test_SVR(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "svr",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "svr",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -607,9 +607,9 @@ def test_RandomForestRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "random_forest_regressor",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "random_forest_regressor",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -627,9 +627,9 @@ def test_LinearRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "linear_regressor",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "linear_regressor",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -647,9 +647,9 @@ def test_KernelRidge(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "kernel_ridge",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "kernel_ridge",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -667,9 +667,9 @@ def test_DecisionTreeRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "decision_tree_regressor",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "decision_tree_regressor",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -687,9 +687,9 @@ def test_GaussianProcessRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "gaussian_process_regressor",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "gaussian_process_regressor",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=4)
@@ -707,9 +707,9 @@ def test_QSVR(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "qsvr",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "qsvr",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
 
@@ -731,9 +731,9 @@ def test_QGPR(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "qgpr",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "qgpr",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=2)
@@ -754,9 +754,9 @@ def test_QKRR(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "qkrr",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.regression.RegressionChoice__choice": "qkrr",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=2)
@@ -780,10 +780,10 @@ def test_QNNRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "qnnr",
-            "autoqml_lib.search_space.regression.quantum.qnnr.QNNR__epochs": 2,
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.regression.RegressionChoice__choice": "qnnr",
+            "autoqml.search_space.regression.quantum.qnnr.QNNR__epochs": 2,
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=2)
@@ -807,9 +807,9 @@ def test_QRCRegressor(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.regression.RegressionChoice__choice": "qrcr",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.regression.RegressionChoice__choice": "qrcr",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_regression(n_samples=10, n_features=2)
@@ -831,9 +831,9 @@ def test_QSVC(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "qsvc",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "qsvc",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -857,9 +857,9 @@ def test_QGPC(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "qgpc",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "qgpc",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -885,10 +885,10 @@ def test_QNNClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "qnnc",
-            "autoqml_lib.search_space.classifictation.quantum.qnnc.QNNC__epochs": 2,
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "qnnc",
+            "autoqml.search_space.classifictation.quantum.qnnc.QNNC__epochs": 2,
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }
     )
     X_train, y_train = sklearn.datasets.make_classification(
@@ -914,9 +914,9 @@ def test_QRCClassifier(config: dict):
     ray.shutdown()
     config.update(
         {
-            "autoqml_lib.search_space.classification.ClassificationChoice__choice": "qrcc",
-            "autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
-            "autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
+            "autoqml.search_space.classification.ClassificationChoice__choice": "qrcc",
+            "autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice": "min_max_scaling",
+            "autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice": "no-op",
         }        
     )
     X_train, y_train = sklearn.datasets.make_classification(

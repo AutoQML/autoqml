@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 from optuna import Trial
-from autoqml_lib.meta_learning.datastatistics import DataStatistics
-from autoqml_lib.search_space import Configuration
-from autoqml_lib.search_space.regression.quantum.qnnr import QNNRegressor
-from autoqml_lib.search_space.regression.quantum.qsvr import QSVR
+from autoqml.meta_learning.datastatistics import DataStatistics
+from autoqml.search_space import Configuration
+from autoqml.search_space.regression.quantum.qnnr import QNNRegressor
+from autoqml.search_space.regression.quantum.qsvr import QSVR
 
 
 class TestSampleConfiguration(TestCase):
