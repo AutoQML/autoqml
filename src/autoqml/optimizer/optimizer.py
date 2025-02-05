@@ -97,8 +97,9 @@ class Optimizer(abc.ABC):
     @abc.abstractmethod
     def optimize(
         self,
-        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
-                               Configuration],
+        search_space: Callable[
+            [evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
+            Configuration],
         X: InputData,
         y: TargetData,
         time_budget: timedelta,
@@ -170,8 +171,9 @@ class RayOptimizer(Optimizer):
 
     def optimize(
         self,
-        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
-                               Configuration],
+        search_space: Callable[
+            [evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
+            Configuration],
         X: InputData,
         y: TargetData,
         time_budget: timedelta,
