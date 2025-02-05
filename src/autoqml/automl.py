@@ -15,7 +15,7 @@ from optuna.samplers import BaseSampler as OptunaBaseSampler
 from sklearn.utils.validation import check_is_fitted
 
 from autoqml.constants import InputData, TargetData
-from autoqml import AutoQMLFitCommand
+from autoqml.messages import AutoQMLFitCommand
 from autoqml.optimizer import evaluation
 from autoqml.optimizer.metric import \
     Accuracy, BalancedAccuracy, MAE, Metric, RMSE

@@ -26,7 +26,7 @@ from sklearn.model_selection import train_test_split
 from squlearn import Executor
 
 from autoqml.constants import InputData, TargetData
-from autoqml import AutoQMLFitCommand
+from autoqml.messages import AutoQMLFitCommand
 from autoqml.optimizer import evaluation, metric
 from autoqml.search_space import Configuration, SearchSpace
 
