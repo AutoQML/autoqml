@@ -15,22 +15,7 @@ from autoqml.search_space import Configuration
 
 
 @dataclass
-class Message():
-    ...
-
-
-@dataclass
-class Event(Message):
-    ...
-
-
-@dataclass
-class Command(Message):
-    ...
-
-
-@dataclass
-class AutoQMLFitCommand(Command):
+class AutoQMLFitCommand:
     X: InputData
     y: TargetData
     time_budget_for_this_task: timedelta
