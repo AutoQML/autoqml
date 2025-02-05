@@ -4,7 +4,7 @@ from datetime import timedelta
 from sklearn.datasets import make_classification
 
 from autoqml import TimeSeriesClassification
-from autoqml.messages import AutoQMLFitCommand
+from autoqml import AutoQMLFitCommand
 
 
 def _fit(X, y, custom_config: dict = dict()):

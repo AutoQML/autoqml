@@ -3,7 +3,7 @@ import ray
 import sklearn
 import sklearn.datasets
 from autoqml import TabularClassification, TabularRegression
-from autoqml.messages import AutoQMLFitCommand
+from autoqml import AutoQMLFitCommand
 from autoqml.search_space.classification.classic.gaussian_process_classifier import GaussianProcessClassifier
 from autoqml.search_space.classification.classic.decision_tree_classifier import DecisionTreeClassifier
 from autoqml.search_space.classification.classic.perceptron import Perceptron

@@ -27,7 +27,7 @@ from squlearn import Executor
 
 from autoqml.meta_learning.datastatistics import TabularStatistics
 from autoqml.constants import InputData, TargetData
-from autoqml.messages import AutoQMLFitCommand
+from autoqml import AutoQMLFitCommand
 from autoqml.optimizer import evaluation, metric
 from autoqml.search_space import Configuration, SearchSpace
 

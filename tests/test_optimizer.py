@@ -2,7 +2,7 @@ import logging
 from typing import Callable
 from autoqml import TimeSeriesClassification
 from autoqml.optimizer.metric import Accuracy
-from autoqml.messages import AutoQMLFitCommand
+from autoqml import AutoQMLFitCommand
 from autoqml.meta_learning.datastatistics import TabularStatistics
 from datetime import timedelta
 

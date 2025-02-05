@@ -103,7 +103,7 @@ In the following example, the user wants to solve a timeseries classification ta
 
 ```python
 from autoqml import TimeSeriesClassification
-from autoqml.messages import AutoQMLFitCommand
+from autoqml import AutoQMLFitCommand
 
 custom_config = {
     'autoqml.search_space.classification.ClassificationChoice__choice':
