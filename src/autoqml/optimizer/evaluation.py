@@ -165,7 +165,4 @@ def evaluate(
     else:
         raise ValueError(f"Selection {selection} not supported")
 
-    # 5. Persist pipeline
-    # TODO
-
     return score

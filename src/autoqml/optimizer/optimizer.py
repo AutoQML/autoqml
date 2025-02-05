@@ -121,10 +121,6 @@ class Optimizer(abc.ABC):
     ) -> Configuration:
         raise NotImplementedError()
 
-    def persist_trial(self, trial: evaluation.Trial) -> None:
-        # TODO: Write the trial to persistent memory.
-        pass
-
 
 def threaded_evaluation(
     result_queue, trial, X_train, y_train, X_test, y_test, metric_, selection,
@@ -272,7 +268,6 @@ class RayOptimizer(Optimizer):
             finisht = time.time()
             trial.duration = finisht - startt
             trial.loss = loss
-            self.persist_trial(trial)
             duration_td = datetime.fromtimestamp(
                 finisht
             ) - datetime.fromtimestamp(startt)
