@@ -18,7 +18,8 @@ from autoqml.constants import InputData, TargetData
 from autoqml.messages import AutoQMLFitCommand
 from autoqml.meta_learning.datastatistics import TabularStatistics
 from autoqml.optimizer import evaluation
-from autoqml.optimizer.metric import Accuracy, BalancedAccuracy, Metric, RMSE
+from autoqml.optimizer.metric import \
+    Accuracy, BalancedAccuracy, MAE, Metric, RMSE
 from autoqml.optimizer.optimizer import RayOptimizer
 from autoqml.search_space import Configuration, SearchSpace
 from autoqml.search_space.base import TunablePipeline
@@ -29,7 +30,8 @@ from autoqml.search_space.preprocessing.dim_reduction import \
 from autoqml.search_space.preprocessing.downsampling import \
     DownsamplingChoice
 from autoqml.search_space.preprocessing.encoding import EncoderChoice
-from autoqml.search_space.preprocessing.rescaling import RescalingChoice, RescalingChoiceQML
+from autoqml.search_space.preprocessing.rescaling import \
+    RescalingChoice, RescalingChoiceQML
 from autoqml.search_space.regression import RegressionChoice
 
 
@@ -310,6 +312,12 @@ class TabularClassification(AutoQML):
 
 
 class TabularRegression(AutoQML):
+    def __init__(self, metric: str = "rmse"):
+        super().__init__()
+        if metric not in ["rmse", "mae"]:
+            raise ValueError("Invalid metric. Must be either 'rmse' or 'mae'.")
+        self._metric = metric
+
     def _construct_search_space(self) -> TunablePipeline:
         # yapf: disable
         pipeline = TunablePipeline(
@@ -325,7 +333,12 @@ class TabularRegression(AutoQML):
         return pipeline
 
     def _get_metric(self) -> Metric:
-        return RMSE()
+        if self._metric == "rmse":
+            return RMSE()
+        elif self._metric == "mae":
+            return MAE()
+        else:
+            raise ValueError("Invalid metric. Must be either 'rmse' or 'mae'.")
 
 
 class TimeSeriesClassification(AutoQML):
@@ -365,6 +378,12 @@ class TimeSeriesClassification(AutoQML):
 
 
 class TimeSeriesRegression(AutoQML):
+    def __init__(self, metric: str = "rmse"):
+        super().__init__()
+        if metric not in ["rmse", "mae"]:
+            raise ValueError("Invalid metric. Must be either 'rmse' or 'mae'.")
+        self._metric = metric
+
     def _construct_search_space(self) -> TunablePipeline:
         # yapf: disable
         pipeline = TunablePipeline(
@@ -382,4 +401,9 @@ class TimeSeriesRegression(AutoQML):
         return pipeline
 
     def _get_metric(self) -> Metric:
-        return RMSE()
+        if self._metric == "rmse":
+            return RMSE()
+        elif self._metric == "mae":
+            return MAE()
+        else:
+            raise ValueError("Invalid metric. Must be either 'rmse' or 'mae'.")
