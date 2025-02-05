@@ -4444,15 +4444,15 @@ test = ["coverage", "pycodestyle", "pyflakes", "pylint", "pytest", "pytest-cov"]
 
 [[package]]
 name = "python-lsp-server"
-version = "1.12.0"
+version = "1.10.1"
 description = "Python Language Server for the Language Server Protocol"
 optional = true
 python-versions = ">=3.8"
 groups = ["main"]
 markers = "extra == \"dev\""
 files = [
-    {file = "python_lsp_server-1.12.0-py3-none-any.whl", hash = "sha256:2e912c661881d85f67f2076e4e66268b695b62bf127e07e81f58b187d4bb6eda"},
-    {file = "python_lsp_server-1.12.0.tar.gz", hash = "sha256:b6a336f128da03bd9bac1e61c3acca6e84242b8b31055a1ccf49d83df9dc053b"},
+    {file = "python-lsp-server-1.10.1.tar.gz", hash = "sha256:ec4c5706af67a265a19173fe4beb3b0a2c1626fa33a15ea952c2f288798b8c0d"},
+    {file = "python_lsp_server-1.10.1-py3-none-any.whl", hash = "sha256:564570dbf56158dd43948038b376a57324f50fb7f62c156075295aa37b390b1f"},
 ]
 
 [package.dependencies]
@@ -4460,20 +4460,23 @@ docstring-to-markdown = "*"
 importlib-metadata = {version = ">=4.8.3", markers = "python_version < \"3.10\""}
 jedi = ">=0.17.2,<0.20.0"
 pluggy = ">=1.0.0"
+pylint = {version = ">=2.5.0,<3.1", optional = true, markers = "extra == \"pylint\""}
 python-lsp-jsonrpc = ">=1.1.0,<2.0.0"
 ujson = ">=3.0.0"
+whatthepatch = {version = ">=1.0.2,<2.0.0", optional = true, markers = "extra == \"yapf\""}
+yapf = {version = ">=0.33.0", optional = true, markers = "extra == \"yapf\""}
 
 [package.extras]
-all = ["autopep8 (>=2.0.4,<2.1.0)", "flake8 (>=7.1,<8)", "mccabe (>=0.7.0,<0.8.0)", "pycodestyle (>=2.12.0,<2.13.0)", "pydocstyle (>=6.3.0,<6.4.0)", "pyflakes (>=3.2.0,<3.3.0)", "pylint (>=3.1,<4)", "rope (>=1.11.0)", "whatthepatch (>=1.0.2,<2.0.0)", "yapf (>=0.33.0)"]
+all = ["autopep8 (>=2.0.4,<2.1.0)", "flake8 (>=7,<8)", "mccabe (>=0.7.0,<0.8.0)", "pycodestyle (>=2.11.0,<2.12.0)", "pydocstyle (>=6.3.0,<6.4.0)", "pyflakes (>=3.2.0,<3.3.0)", "pylint (>=2.5.0,<3.1)", "rope (>=1.11.0)", "whatthepatch (>=1.0.2,<2.0.0)", "yapf (>=0.33.0)"]
 autopep8 = ["autopep8 (>=2.0.4,<2.1.0)"]
-flake8 = ["flake8 (>=7.1,<8)"]
+flake8 = ["flake8 (>=7,<8)"]
 mccabe = ["mccabe (>=0.7.0,<0.8.0)"]
-pycodestyle = ["pycodestyle (>=2.12.0,<2.13.0)"]
+pycodestyle = ["pycodestyle (>=2.11.0,<2.12.0)"]
 pydocstyle = ["pydocstyle (>=6.3.0,<6.4.0)"]
 pyflakes = ["pyflakes (>=3.2.0,<3.3.0)"]
-pylint = ["pylint (>=3.1,<4)"]
+pylint = ["pylint (>=2.5.0,<3.1)"]
 rope = ["rope (>=1.11.0)"]
-test = ["coverage", "flaky", "matplotlib", "numpy", "pandas", "pylint (>=3.1,<4)", "pyqt5", "pytest", "pytest-cov"]
+test = ["coverage", "flaky", "matplotlib", "numpy", "pandas", "pylint (>=2.5.0,<3.1)", "pyqt5", "pytest", "pytest-cov"]
 websockets = ["websockets (>=10.3)"]
 yapf = ["whatthepatch (>=1.0.2,<2.0.0)", "yapf (>=0.33.0)"]
 
@@ -6225,6 +6228,19 @@ optional = ["python-socks", "wsaccel"]
 test = ["websockets"]
 
 [[package]]
+name = "whatthepatch"
+version = "1.0.7"
+description = "A patch parsing and application library."
+optional = true
+python-versions = ">=3.9"
+groups = ["main"]
+markers = "extra == \"dev\""
+files = [
+    {file = "whatthepatch-1.0.7-py3-none-any.whl", hash = "sha256:1b6f655fd31091c001c209529dfaabbabdbad438f5de14e3951266ea0fc6e7ed"},
+    {file = "whatthepatch-1.0.7.tar.gz", hash = "sha256:9eefb4ebea5200408e02d413d2b4bc28daea6b78bb4b4d53431af7245f7d7edf"},
+]
+
+[[package]]
 name = "widgetsnbextension"
 version = "4.0.13"
 description = "Jupyter interactive widgets for Jupyter Notebook"
@@ -6469,4 +6485,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "4a36290c4ec49e881bea520d81c448e6e9c5864626304b355823bb2c53b28ff8"
+content-hash = "2fe01df8c6084674bae6013915cd66bc09577140df91f8168c6881cbd022d0cc"
