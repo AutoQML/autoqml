@@ -10,7 +10,6 @@ from qiskit.providers.backend import Backend
 from qiskit_ibm_runtime import QiskitRuntimeService, Session
 from squlearn import Executor
 
-from autoqml.backend import Backend
 from autoqml.constants import InputData, TargetData
 from autoqml.search_space import Configuration
 

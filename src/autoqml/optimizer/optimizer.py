@@ -10,8 +10,6 @@ import ray
 import queue
 import multiprocessing
 from autoqml.meta_learning.datastatistics import TabularStatistics
-# from autoqml.automl import TabularStatistics
-from autoqml.backend import Backend
 from autoqml.constants import InputData, TargetData
 from autoqml.messages import AutoQMLFitCommand
 from autoqml.optimizer import evaluation, metric
