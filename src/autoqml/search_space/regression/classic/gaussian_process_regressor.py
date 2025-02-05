@@ -8,28 +8,30 @@ from autoqml.search_space.base import TunableMixin
 
 
 class GaussianProcessRegressor(BaseEstimator, TransformerMixin, TunableMixin):
-    def __init__(self, kernel: str ='RBF',  alpha: float = 0.1, normalize_y: bool = False):
+    def __init__(
+        self,
+        kernel: str = 'RBF',
+        alpha: float = 0.1,
+        normalize_y: bool = False
+    ):
         self.kernel = kernel
         self.alpha = alpha
         self.normalize_y = normalize_y
-        
 
     def fit(self, X: InputData, y: TargetData):
         from sklearn.gaussian_process import GaussianProcessRegressor
         from sklearn.gaussian_process.kernels import RBF, DotProduct, Matern
-        
+
         kernel = None
         if self.kernel == 'RBF':
             kernel = RBF()
         elif self.kernel == 'DotProduct':
             kernel = DotProduct()
         elif self.kernel == 'Matern':
-            kernel = Matern()        
+            kernel = Matern()
 
         self.estimator = GaussianProcessRegressor(
-            kernel=kernel,
-            alpha=self.alpha,
-            normalize_y=self.normalize_y
+            kernel=kernel, alpha=self.alpha, normalize_y=self.normalize_y
         )
 
         self.estimator.fit(X, y)
@@ -43,7 +45,7 @@ class GaussianProcessRegressor(BaseEstimator, TransformerMixin, TunableMixin):
     def sample_configuration(
         self, trial: Trial, defaults: Configuration,
         dataset_statistics: DataStatistics
-    ) -> Configuration:        
+    ) -> Configuration:
         from sklearn.gaussian_process.kernels import RBF, DotProduct, Matern
         return {
             'kernel':
@@ -51,22 +53,23 @@ class GaussianProcessRegressor(BaseEstimator, TransformerMixin, TunableMixin):
                     self._get_default_values(trial, 'kernel', defaults)
                     if self._fullname('kernel') in defaults else
                     trial.suggest_categorical(
-                        self._fullname('kernel'), ['RBF', 'DotProduct', 'Matern']
+                        self._fullname('kernel'),
+                        ['RBF', 'DotProduct', 'Matern']
                     )
                 ),
             'alpha':
                 (
                     self._get_default_values(trial, 'alpha', defaults)
-                    if self._fullname('alpha')
-                    in defaults else trial.suggest_float(
+                    if self._fullname('alpha') in defaults else
+                    trial.suggest_float(
                         self._fullname('alpha'), 0.03125, 32768, log=True
                     )
                 ),
             'normalize_y':
                 (
                     self._get_default_values(trial, 'normalize_y', defaults)
-                    if self._fullname('normalize_y')
-                    in defaults else trial.suggest_categorical(
+                    if self._fullname('normalize_y') in defaults else
+                    trial.suggest_categorical(
                         self._fullname('normalize_y'), [True, False]
                     )
                 ),

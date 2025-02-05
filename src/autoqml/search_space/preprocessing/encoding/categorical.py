@@ -13,10 +13,10 @@ from autoqml.search_space.preprocessing.encoding.util import split_types
 
 class CategoricalEncoder(BaseEstimator, TransformerMixin, TunableMixin):
     def __init__(
-            self,
-            categories: Union[str, list[str]] = 'auto',
-            min_frequency: Optional[Union[int, float]] = None,
-            max_categories: Optional[int] = None
+        self,
+        categories: Union[str, list[str]] = 'auto',
+        min_frequency: Optional[Union[int, float]] = None,
+        max_categories: Optional[int] = None
     ):
         """
         categories ‘auto’ or a list of array-like, default=’auto’
@@ -59,13 +59,17 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin, TunableMixin):
         self.estimator = ColumnTransformer(
             transformers=[
                 ("num", IdentityTransformer(), num_cols),
-                ("cat", OrdinalEncoder(
-                    categories=self.categories,
-                    # TODO: After sklearn version 1.3.0 switch on
-                    # min_frequency and max_categories.
-                    # min_frequency=self.min_frequency,
-                    # max_categories=self.max_categories,
-                ), cat_cols),
+                (
+                    "cat",
+                    OrdinalEncoder(
+                        categories=self.categories,
+                        # TODO: After sklearn version 1.3.0 switch on
+                        # min_frequency and max_categories.
+                        # min_frequency=self.min_frequency,
+                        # max_categories=self.max_categories,
+                    ),
+                    cat_cols
+                ),
             ]
         )
 
@@ -80,9 +84,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {}

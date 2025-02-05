@@ -21,9 +21,9 @@ class MissingTargetsForStratification(ResamplingException):
 
 class Resampling(BaseEstimator, TransformerMixin, TunableMixin):
     def __init__(
-            self,
-            stratify: bool = False,
-            n_samples: Optional[int] = None,
+        self,
+        stratify: bool = False,
+        n_samples: Optional[int] = None,
     ):
         """
         n_samples int, default=None
@@ -40,7 +40,7 @@ class Resampling(BaseEstimator, TransformerMixin, TunableMixin):
         pass
 
     def transform(
-            self, X: InputData, y: Optional[TargetData] = None
+        self, X: InputData, y: Optional[TargetData] = None
     ) -> InputData:
         if self.stratify:
             if not y:
@@ -64,15 +64,16 @@ class Resampling(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'stratify': (
-                self._get_default_values(trial, 'stratify', defaults)
-                if self._fullname('stratify') in defaults
-                else trial.suggest_categorical(self._fullname('stratify'), [True, False])
-            )
+            'stratify':
+                (
+                    self._get_default_values(trial, 'stratify', defaults)
+                    if self._fullname('stratify') in defaults else
+                    trial.suggest_categorical(
+                        self._fullname('stratify'), [True, False]
+                    )
+                )
         }

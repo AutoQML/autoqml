@@ -9,9 +9,14 @@ from autoqml.search_space.base import TunableMixin
 
 
 class RandomForestRegressor(BaseEstimator, TransformerMixin, TunableMixin):
-    def __init__(self, n_estimators: int = 100, criterion: str = 'squared_error',
-                max_depth: int = None, min_samples_split: Union[int, float] = 2,
-                min_samples_leaf: Union[int, float] = 1):
+    def __init__(
+        self,
+        n_estimators: int = 100,
+        criterion: str = 'squared_error',
+        max_depth: int = None,
+        min_samples_split: Union[int, float] = 2,
+        min_samples_leaf: Union[int, float] = 1
+    ):
         self.n_estimators = n_estimators
         self.criterion = criterion
         self.max_depth = max_depth
@@ -47,39 +52,50 @@ class RandomForestRegressor(BaseEstimator, TransformerMixin, TunableMixin):
                     self._get_default_values(trial, 'criterion', defaults)
                     if self._fullname('criterion') in defaults else
                     trial.suggest_categorical(
-                        self._fullname('criterion'), ['squared_error', 'absolute_error', 'friedman_mse', 'poisson']
+                        self._fullname('criterion'), [
+                            'squared_error', 'absolute_error', 'friedman_mse',
+                            'poisson'
+                        ]
                     )
                 ),
             'n_estimators':
                 (
                     self._get_default_values(trial, 'n_estimators', defaults)
-                    if self._fullname('n_estimators')
-                    in defaults else trial.suggest_int(
+                    if self._fullname('n_estimators') in defaults else
+                    trial.suggest_int(
                         self._fullname('n_estimators'), 10, 10000, log=True
                     )
                 ),
             'max_depth':
                 (
                     self._get_default_values(trial, 'max_depth', defaults)
-                    if self._fullname('max_depth')
-                    in defaults else trial.suggest_int(
+                    if self._fullname('max_depth') in defaults else
+                    trial.suggest_int(
                         self._fullname('max_depth'), 1, 1000, log=False
                     )
                 ),
             'min_samples_split':
                 (
-                    self._get_default_values(trial, 'min_samples_split', defaults)
-                    if self._fullname('min_samples_split')
-                    in defaults else trial.suggest_float(
-                        self._fullname('min_samples_split'), 0.01, 1.0, log=True
+                    self._get_default_values(
+                        trial, 'min_samples_split', defaults
+                    ) if self._fullname('min_samples_split') in defaults else
+                    trial.suggest_float(
+                        self._fullname('min_samples_split'),
+                        0.01,
+                        1.0,
+                        log=True
                     )
                 ),
             'min_samples_leaf':
                 (
-                    self._get_default_values(trial, 'min_samples_leaf', defaults)
-                    if self._fullname('min_samples_leaf')
-                    in defaults else trial.suggest_float(
-                        self._fullname('min_samples_leaf'), 0.01, 1.0, log=True
+                    self._get_default_values(
+                        trial, 'min_samples_leaf', defaults
+                    ) if self._fullname('min_samples_leaf') in defaults else
+                    trial.suggest_float(
+                        self._fullname('min_samples_leaf'),
+                        0.01,
+                        1.0,
+                        log=True
                     )
                 )
         }

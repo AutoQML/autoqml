@@ -27,15 +27,14 @@ class UMAP(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'n_components': (
-                self._get_default_values(trial, 'n_components', defaults)
-                if self._fullname('n_components') in defaults
-                else trial.suggest_float(self._fullname('n_components'), 0.0, 1.0)
-            )
+            'n_components':
+                (
+                    self._get_default_values(trial, 'n_components', defaults)
+                    if self._fullname('n_components') in defaults else trial.
+                    suggest_float(self._fullname('n_components'), 0.0, 1.0)
+                )
         }

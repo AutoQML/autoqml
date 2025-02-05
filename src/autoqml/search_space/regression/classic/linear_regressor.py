@@ -44,8 +44,8 @@ class LinearRegressor(BaseEstimator, TransformerMixin, TunableMixin):
             'positive':
                 (
                     self._get_default_values(trial, 'positive', defaults)
-                    if self._fullname('positive')
-                    in defaults else trial.suggest_categorical(
+                    if self._fullname('positive') in defaults else
+                    trial.suggest_categorical(
                         self._fullname('positive'), [True, False]
                     )
                 )

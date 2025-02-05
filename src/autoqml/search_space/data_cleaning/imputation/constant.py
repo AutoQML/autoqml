@@ -24,15 +24,14 @@ class ConstantImputation(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'constant': (
-                self._get_default_values(trial, 'constant', defaults)
-                if self._fullname('constant') in defaults
-                else trial.suggest_categorical(self._fullname('constant'), [0, 1, 2])
-            )
+            'constant':
+                (
+                    self._get_default_values(trial, 'constant', defaults)
+                    if self._fullname('constant') in defaults else trial.
+                    suggest_categorical(self._fullname('constant'), [0, 1, 2])
+                )
         }

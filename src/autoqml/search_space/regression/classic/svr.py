@@ -43,9 +43,8 @@ class SVR(BaseEstimator, TransformerMixin, TunableMixin):
                 ),
             'C':
                 (
-                    self._get_default_values(trial, 'C', defaults)
-                    if self._fullname('C')
-                    in defaults else trial.suggest_float(
+                    self._get_default_values(trial, 'C', defaults) if
+                    self._fullname('C') in defaults else trial.suggest_float(
                         self._fullname('C'), 0.03125, 32768, log=True
                     )
                 )

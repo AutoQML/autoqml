@@ -29,20 +29,23 @@ class SVC(BaseEstimator, TransformerMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'kernel': (
-                self._get_default_values(trial, 'kernel', defaults)
-                if self._fullname('kernel') in defaults
-                else trial.suggest_categorical(self._fullname('kernel'), ['rbf', 'poly', 'sigmoid'])
-            ),
-            'C': (
-                self._get_default_values(trial, 'C', defaults)
-                if self._fullname('C') in defaults
-                else trial.suggest_float(self._fullname('C'), 0.03125, 32768, log=True)
-            )
+            'kernel':
+                (
+                    self._get_default_values(trial, 'kernel', defaults)
+                    if self._fullname('kernel') in defaults else
+                    trial.suggest_categorical(
+                        self._fullname('kernel'), ['rbf', 'poly', 'sigmoid']
+                    )
+                ),
+            'C':
+                (
+                    self._get_default_values(trial, 'C', defaults) if
+                    self._fullname('C') in defaults else trial.suggest_float(
+                        self._fullname('C'), 0.03125, 32768, log=True
+                    )
+                )
         }

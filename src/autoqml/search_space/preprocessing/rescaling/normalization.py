@@ -26,15 +26,16 @@ class Normalization(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'norm': (
-                self._get_default_values(trial, 'norm', defaults)
-                if self._fullname('norm') in defaults
-                else trial.suggest_categorical(self._fullname('norm'), ['l1', 'l2', 'max'])
-            )
+            'norm':
+                (
+                    self._get_default_values(trial, 'norm', defaults)
+                    if self._fullname('norm') in defaults else
+                    trial.suggest_categorical(
+                        self._fullname('norm'), ['l1', 'l2', 'max']
+                    )
+                )
         }

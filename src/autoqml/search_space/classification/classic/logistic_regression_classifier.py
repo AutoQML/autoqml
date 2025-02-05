@@ -8,9 +8,14 @@ from autoqml.search_space.base import TunableMixin
 
 
 class LogisticRegressor(BaseEstimator, TransformerMixin, TunableMixin):
-    def __init__(self, penalty: str = 'l2', dual: bool = False,
-                C: float = 1.0, fit_intercept: bool = True,
-                max_iter: int = 100):
+    def __init__(
+        self,
+        penalty: str = 'l2',
+        dual: bool = False,
+        C: float = 1.0,
+        fit_intercept: bool = True,
+        max_iter: int = 100
+    ):
         self.penalty = penalty
         self.dual = dual
         self.C = C
@@ -46,38 +51,35 @@ class LogisticRegressor(BaseEstimator, TransformerMixin, TunableMixin):
                     self._get_default_values(trial, 'penalty', defaults)
                     if self._fullname('penalty') in defaults else
                     trial.suggest_categorical(
-                        self._fullname('penalty'), [None, 'l2', 'l1', 'elasticnet']
+                        self._fullname('penalty'),
+                        [None, 'l2', 'l1', 'elasticnet']
                     )
                 ),
             'dual':
                 (
                     self._get_default_values(trial, 'dual', defaults)
-                    if self._fullname('dual')
-                    in defaults else trial.suggest_categorical(
-                        self._fullname('dual'), [True, False]
-                    )
+                    if self._fullname('dual') in defaults else trial.
+                    suggest_categorical(self._fullname('dual'), [True, False])
                 ),
             'C':
                 (
                     self._get_default_values(trial, 'C', defaults)
-                    if self._fullname('C') in defaults else
-                    trial.suggest_float(
-                        self._fullname('C'), 0.01, 10000, log=True
-                    )
+                    if self._fullname('C') in defaults else trial.
+                    suggest_float(self._fullname('C'), 0.01, 10000, log=True)
                 ),
             'fit_intercept':
                 (
                     self._get_default_values(trial, 'fit_intercept', defaults)
-                    if self._fullname('fit_intercept')
-                    in defaults else trial.suggest_categorical(
+                    if self._fullname('fit_intercept') in defaults else
+                    trial.suggest_categorical(
                         self._fullname('fit_intercept'), [True, False]
                     )
                 ),
             'max_iter':
                 (
                     self._get_default_values(trial, 'max_iter', defaults)
-                    if self._fullname('max_iter')
-                    in defaults else trial.suggest_int(
+                    if self._fullname('max_iter') in defaults else
+                    trial.suggest_int(
                         self._fullname('max_iter'), 10, 10000, log=True
                     )
                 )

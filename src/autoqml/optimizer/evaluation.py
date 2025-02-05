@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 
 from dataclasses import dataclass
 from typing import Callable, Optional, Union
@@ -17,8 +17,6 @@ from autoqml.constants import Budget, InputData, TargetData, TrialId
 from autoqml.optimizer.metric import Metric
 from autoqml.search_space import Configuration, SearchSpace
 from autoqml.search_space.base import TunablePipeline
-
-
 
 __all__ = ['evaluate']
 
@@ -125,11 +123,10 @@ def evaluate(
         PennylaneDevice,
     ],
     metric: Metric,
-    selection:str,
+    selection: str,
     pipeline_factory: Callable[..., SearchSpace],
 ) -> Score:
-    
-    
+
     pipeline = fit_configuration(
         X=X_train,
         y=y_train,
@@ -143,21 +140,27 @@ def evaluate(
         return pipeline
 
     # 4. Score solution using metric
-    if selection=="split":
+    if selection == "split":
 
         # Compute score on test set
         pred_test = pipeline.predict(X_test)
         score = metric.score(a=pred_test, b=y_test)
 
-    elif selection=="cv":
+    elif selection == "cv":
         # Compute cross-validated score
-        scorer = make_scorer(metric.score, greater_is_better=not metric.mode_is_minimization)
-        score = np.mean(cross_val_score(pipeline, X_train, y_train, cv=4, scoring=scorer))
+        scorer = make_scorer(
+            metric.score, greater_is_better=not metric.mode_is_minimization
+        )
+        score = np.mean(
+            cross_val_score(pipeline, X_train, y_train, cv=4, scoring=scorer)
+        )
 
         if metric.mode_is_minimization:
             score = -score
 
-        score = np.float64(np.where(np.isnan(score), metric.worst_result, score))
+        score = np.float64(
+            np.where(np.isnan(score), metric.worst_result, score)
+        )
 
     else:
         raise ValueError(f"Selection {selection} not supported")

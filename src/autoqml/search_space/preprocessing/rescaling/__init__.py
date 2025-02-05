@@ -15,6 +15,7 @@ class RescalingChoice(EstimatorChoice):
             'no-op': NoOp,
         }
 
+
 class RescalingChoiceQML(EstimatorChoice):
     @classmethod
     def get_components(cls) -> dict[str, type[TunableMixin]]:

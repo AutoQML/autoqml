@@ -14,10 +14,15 @@ class TSNE(BaseEstimator, TransformerMixin, TunableMixin):
     def fit(self, X: InputData, y: TargetData):
         from sklearn.manifold import TSNE
 
-        perplexity = max(1,min(30, int(X.shape[0]*0.2)-1))  # 0.2 train test split
+        perplexity = max(
+            1, min(30,
+                   int(X.shape[0] * 0.2) - 1)
+        )  # 0.2 train test split
 
         tsne_components = max(1, int(self.n_components))
-        self.estimator = TSNE(n_components=tsne_components, perplexity=perplexity)
+        self.estimator = TSNE(
+            n_components=tsne_components, perplexity=perplexity
+        )
         self.estimator.fit(X, y)
         return self
 
@@ -29,15 +34,14 @@ class TSNE(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-            self,
-            trial: Trial,
-            defaults: Configuration,
-            dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-            'n_components': (
-                self._get_default_values(trial, 'n_components', defaults)
-                if self._fullname('n_components') in defaults
-                else trial.suggest_float(self._fullname('n_components'), 0.0, 1.0)
-            )
+            'n_components':
+                (
+                    self._get_default_values(trial, 'n_components', defaults)
+                    if self._fullname('n_components') in defaults else trial.
+                    suggest_float(self._fullname('n_components'), 0.0, 1.0)
+                )
         }

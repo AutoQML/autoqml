@@ -8,8 +8,12 @@ from autoqml.search_space.base import TunableMixin
 
 
 class GaussianProcessClassifier(BaseEstimator, TransformerMixin, TunableMixin):
-    def __init__(self, kernel: str ='RBF', 
-                warm_start: bool = False, multi_class: str = 'one_vs_rest'):
+    def __init__(
+        self,
+        kernel: str = 'RBF',
+        warm_start: bool = False,
+        multi_class: str = 'one_vs_rest'
+    ):
         self.kernel = kernel
         self.warm_start = warm_start
         self.multi_class = multi_class
@@ -17,7 +21,7 @@ class GaussianProcessClassifier(BaseEstimator, TransformerMixin, TunableMixin):
     def fit(self, X: InputData, y: TargetData):
         from sklearn.gaussian_process import GaussianProcessClassifier
         from sklearn.gaussian_process.kernels import RBF, DotProduct, Matern
-        
+
         kernel = None
         if self.kernel == 'RBF':
             kernel = RBF()
@@ -43,7 +47,7 @@ class GaussianProcessClassifier(BaseEstimator, TransformerMixin, TunableMixin):
     def sample_configuration(
         self, trial: Trial, defaults: Configuration,
         dataset_statistics: DataStatistics
-    ) -> Configuration:        
+    ) -> Configuration:
 
         return {
             'kernel':
@@ -51,23 +55,25 @@ class GaussianProcessClassifier(BaseEstimator, TransformerMixin, TunableMixin):
                     self._get_default_values(trial, 'kernel', defaults)
                     if self._fullname('kernel') in defaults else
                     trial.suggest_categorical(
-                        self._fullname('kernel'), ['RBF', 'DotProduct', 'Matern']
+                        self._fullname('kernel'),
+                        ['RBF', 'DotProduct', 'Matern']
                     )
                 ),
             'warm_start':
                 (
                     self._get_default_values(trial, 'warm_start', defaults)
-                    if self._fullname('warm_start')
-                    in defaults else trial.suggest_categorical(
+                    if self._fullname('warm_start') in defaults else
+                    trial.suggest_categorical(
                         self._fullname('warm_start'), [True, False]
                     )
                 ),
             'multi_class':
                 (
                     self._get_default_values(trial, 'multi_class', defaults)
-                    if self._fullname('multi_class')
-                    in defaults else trial.suggest_categorical(
-                        self._fullname('multi_class'), ['one_vs_rest', 'one_vs_one']
+                    if self._fullname('multi_class') in defaults else
+                    trial.suggest_categorical(
+                        self._fullname('multi_class'),
+                        ['one_vs_rest', 'one_vs_one']
                     )
                 )
         }

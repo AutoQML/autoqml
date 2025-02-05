@@ -6,7 +6,6 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Any, Callable, Dict, Optional, Union
 
-
 import ray
 import queue
 import multiprocessing
@@ -121,7 +120,7 @@ class Optimizer(abc.ABC):
         sampler: Union[OptunaBaseSampler, None] = None,
         num_startup_trials: int = 100,
         time_budget_for_trials: Union[timedelta, None] = None,
-        selection: str = "cv" # or split
+        selection: str = "cv"  # or split
     ) -> Configuration:
         raise NotImplementedError()
 
@@ -129,17 +128,11 @@ class Optimizer(abc.ABC):
         # TODO: Write the trial to persistent memory.
         pass
 
-def threaded_evaluation(result_queue,
-                trial,
-                X_train,
-                y_train,
-                X_test,
-                y_test,
-                metric_,
-                selection,
-                backend,
-                pipeline_factory,
-                logger):
+
+def threaded_evaluation(
+    result_queue, trial, X_train, y_train, X_test, y_test, metric_, selection,
+    backend, pipeline_factory, logger
+):
     """ Special function to run the evaluation in a separate thread to be able to terminate it if 
     it exceeds the time budget """
 
@@ -161,12 +154,17 @@ def threaded_evaluation(result_queue,
     except RuntimeError as e:
         # Check if it's the specific error you want to handle
         if "Maximum number of iterations reached" in str(e):
-            logger.error(msg='Failed to fit configuration: Maximum number of iterations reached', exc_info=True)
+            logger.error(
+                msg=
+                'Failed to fit configuration: Maximum number of iterations reached',
+                exc_info=True
+            )
             loss = metric_.worst_result
         else:
             raise  # Re-raise other RuntimeErrors
 
     result_queue.put(loss)
+
 
 class RayOptimizer(Optimizer):
     def __init__(self, local_mode: bool = True):
@@ -197,7 +195,7 @@ class RayOptimizer(Optimizer):
         sampler: Union[OptunaBaseSampler, None] = None,
         num_startup_trials: int = 100,
         time_budget_for_trials: Union[timedelta, None] = None,
-        selection: str = "cv" # or split
+        selection: str = "cv"  # or split
     ) -> Configuration:
         # 2. Split input data into train and test set
         if selection == "split":
@@ -235,47 +233,42 @@ class RayOptimizer(Optimizer):
             if time_budget_for_trials:
                 # Running model evaluation is a separate process to be able to terminate it if it exceeds the time budget
                 result_queue = multiprocessing.Queue()
-                process = multiprocessing.Process(target=threaded_evaluation, args=(result_queue,
-                                                                                    trial,
-                                                                                    X_train,
-                                                                                    y_train,
-                                                                                    X_test,
-                                                                                    y_test,
-                                                                                    metric_,
-                                                                                    selection,
-                                                                                    backend,
-                                                                                    pipeline_factory,
-                                                                                    logger))
+                process = multiprocessing.Process(
+                    target=threaded_evaluation,
+                    args=(
+                        result_queue, trial, X_train, y_train, X_test, y_test,
+                        metric_, selection, backend, pipeline_factory, logger
+                    )
+                )
                 process.start()
                 process.join(time_budget_for_trials.total_seconds())
 
                 if process.is_alive():
-                    logging.warning("Trial exceeded timeout and was terminated.")
+                    logging.warning(
+                        "Trial exceeded timeout and was terminated."
+                    )
                     process.terminate()
                     process.join()  # Ensure resources are cleaned up
                     loss = metric_.worst_result
                 else:
                     try:
-                        loss = result_queue.get()  # Get the result without blocking
+                        loss = result_queue.get(
+                        )  # Get the result without blocking
                     except queue.Empty:
-                        logging.warning("Trial exceeded timeout and was terminated.")
+                        logging.warning(
+                            "Trial exceeded timeout and was terminated."
+                        )
                         loss = metric_.worst_result
 
             else:
                 result_queue = multiprocessing.Queue()
-                threaded_evaluation(result_queue,
-                                    trial,
-                                    X_train,
-                                    y_train,
-                                    X_test,
-                                    y_test,
-                                    metric_,
-                                    selection,
-                                    backend,
-                                    pipeline_factory,
-                                    logger)
+                threaded_evaluation(
+                    result_queue, trial, X_train, y_train, X_test, y_test,
+                    metric_, selection, backend, pipeline_factory, logger
+                )
                 try:
-                    loss = result_queue.get()  # Get the result without blocking
+                    loss = result_queue.get(
+                    )  # Get the result without blocking
                 except queue.Empty:
                     logging.warning("Evaluation failed.")
                     loss = metric_.worst_result
@@ -298,10 +291,12 @@ class RayOptimizer(Optimizer):
 
         if sampler is None:
             sampler = TPESampler(
-                n_startup_trials=num_startup_trials, # Default value has to be discussed
+                n_startup_trials=
+                num_startup_trials,  # Default value has to be discussed
                 n_ei_candidates=24,
                 multivariate=True,
-                seed=seed)
+                seed=seed
+            )
 
         algo = MyOptunaSearch(
             func_kwargs={
@@ -313,7 +308,7 @@ class RayOptimizer(Optimizer):
             metric='score',
             mode='min' if metric_.mode_is_minimization else 'max',
             seed=seed if sampler is None else None,
-            sampler = sampler,
+            sampler=sampler,
         )
 
         ray.init(configure_logging=False, local_mode=self.local_mode)
@@ -330,15 +325,16 @@ class RayOptimizer(Optimizer):
                 stop={'time_total_s': time_budget.total_seconds()}
             )
         )
-        best_result = tuner.fit().get_best_result(
-            filter_nan_and_inf=False
-        )
+        best_result = tuner.fit().get_best_result(filter_nan_and_inf=False)
         best_config: Optional[dict[str, Any]] = best_result.config
         best_score = best_result.metrics['score']
         ray.shutdown()
 
-        if (metric_.mode_is_minimization and best_score >= metric_.worst_result) or (
-            not metric_.mode_is_minimization and best_score <= metric_.worst_result
+        if (
+            metric_.mode_is_minimization and best_score >= metric_.worst_result
+        ) or (
+            not metric_.mode_is_minimization and
+            best_score <= metric_.worst_result
         ):
             logger = logging.getLogger(__name__)
             logger.warning(

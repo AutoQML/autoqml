@@ -18,8 +18,8 @@ from autoqml.search_space.util import (
 from autoqml.util.context import ConfigContext
 from autoqml.constants import TrialId
 
-class QKRR(BaseEstimator, RegressorMixin, TunableMixin):
 
+class QKRR(BaseEstimator, RegressorMixin, TunableMixin):
     def __init__(
         self,
         # encoding circuit related parameters
@@ -93,35 +93,41 @@ class QKRR(BaseEstimator, RegressorMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration, dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
 
         config = Configuration({key: None for key in self._get_param_names()})
 
         config["num_qubits"] = (
             self._get_default_values(trial, 'num_qubits', defaults)
-            if self._fullname("num_qubits") in defaults
-            else trial.suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
+            if self._fullname("num_qubits") in defaults else trial.
+            suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
         )
 
         config.update(
-            sample_encoding_circuit_configuration(trial, defaults, self._fullname)
+            sample_encoding_circuit_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         config.update(
-            sample_quantum_kernel_configuration(trial, defaults, self._fullname)
+            sample_quantum_kernel_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         config.update(
             {
-                "C": (
-                    self._get_default_values(trial, 'C', defaults)
-                    if self._fullname("C") in defaults
-                    else trial.suggest_float(
-                        self._fullname("C"), 0.03125, 32768, log=True
-                    )
-                    # self._fullname('C'), 90, 110, step=10)  # Fraunhofer C == 100
-                ),
+                "C":
+                    (
+                        self._get_default_values(trial, 'C', defaults)
+                        if self._fullname("C") in defaults else
+                        trial.suggest_float(
+                            self._fullname("C"), 0.03125, 32768, log=True
+                        )
+                        # self._fullname('C'), 90, 110, step=10)  # Fraunhofer C == 100
+                    ),
             }
         )
 

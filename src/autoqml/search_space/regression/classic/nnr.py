@@ -185,10 +185,11 @@ class NNRegressor(BaseEstimator, TransformerMixin, TunableMixin):
         input_dim = X.shape[1]  # the length of one data point
         trainer = self._trainer_factory()
         # Check for Pandas Dataframes or Series and convert to numpy arrays
-        if isinstance (X, pd.core.frame.DataFrame) or isinstance (X, pd.core.series.Series):
+        if isinstance(X, pd.core.frame.DataFrame
+                     ) or isinstance(X, pd.core.series.Series):
             X = X.values
-        if isinstance (y, pd.core.series.Series):
-            y = y.values          
+        if isinstance(y, pd.core.series.Series):
+            y = y.values
         # train test split
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.25, random_state=777
@@ -243,12 +244,11 @@ class NNRegressor(BaseEstimator, TransformerMixin, TunableMixin):
         dataset_statistics: DataStatistics
     ) -> Configuration:
         return {
-
             'n_hidden_neurons':
                 (
                     self._get_default_values(trial, 'max_epochs', defaults)
-                    if self._fullname('max_epochs') in defaults else
-                    trial.suggest_int(self._fullname('max_epochs'), 2**5, 2**9)
+                    if self._fullname('max_epochs') in defaults else trial.
+                    suggest_int(self._fullname('max_epochs'), 2**5, 2**9)
                 ),
             'act_fn':
                 (

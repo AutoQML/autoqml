@@ -11,13 +11,12 @@ class RidgeClassifier(BaseEstimator, TransformerMixin, TunableMixin):
     def __init__(self, alpha: float = 1.0, fit_intercept: bool = True):
         self.alpha = alpha
         self.fit_intercept = fit_intercept
-            
+
     def fit(self, X: InputData, y: TargetData):
         from sklearn.linear_model import RidgeClassifier
 
         self.estimator = RidgeClassifier(
-            alpha=self.alpha,
-            fit_intercept=self.fit_intercept
+            alpha=self.alpha, fit_intercept=self.fit_intercept
         )
 
         self.estimator.fit(X, y)
@@ -36,16 +35,16 @@ class RidgeClassifier(BaseEstimator, TransformerMixin, TunableMixin):
             'alpha':
                 (
                     self._get_default_values(trial, 'alpha', defaults)
-                    if self._fullname('alpha')
-                    in defaults else trial.suggest_float(
+                    if self._fullname('alpha') in defaults else
+                    trial.suggest_float(
                         self._fullname('alpha'), 0.03125, 32768, log=True
                     )
-                ),    
+                ),
             'fit_intercept':
                 (
                     self._get_default_values(trial, 'fit_intercept', defaults)
-                    if self._fullname('fit_intercept')
-                    in defaults else trial.suggest_categorical(
+                    if self._fullname('fit_intercept') in defaults else
+                    trial.suggest_categorical(
                         self._fullname('fit_intercept'), [True, False]
                     )
                 )

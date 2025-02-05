@@ -34,7 +34,9 @@ def get_encoding_circuit(
     alpha: float,
     num_chebyshev: int,
 ) -> EncodingCircuitBase:
-    num_layers = (num_features + num_qubits - 1) // num_qubits * num_repetitions
+    num_layers = (
+        num_features + num_qubits - 1
+    ) // num_qubits * num_repetitions
     if encoding_circuit == "chebyshev_pqc":
         return ChebyshevPQC(
             num_qubits=num_qubits,
@@ -159,7 +161,9 @@ def get_observable(
     elif observable == "ising_hamiltonian":
         return IsingHamiltonian(num_qubits=num_qubits, I="N")
     elif observable == "ising_hamiltonian_transverse":
-        return IsingHamiltonian(num_qubits=num_qubits, I="N", Z="N", X="F", ZZ="F")
+        return IsingHamiltonian(
+            num_qubits=num_qubits, I="N", Z="N", X="F", ZZ="F"
+        )
     else:
         raise ValueError(f"Observable {observable} not supported")
 
@@ -208,18 +212,20 @@ def sample_quantum_kernel_configuration(
     Raises:
         ValueError: If the quantum kernel is not supported.
     """
-
-    def _get_default_values(trial:Trial, fullname:str, defaults: Configuration):
+    def _get_default_values(
+        trial: Trial, fullname: str, defaults: Configuration
+    ):
         """ Helper function to handle default sequences"""
-        return (trial.suggest_categorical(fullname, defaults[fullname])
-                if isinstance(defaults[fullname], Sequence) and not isinstance(defaults[fullname], (str, bytes))
-                else defaults[fullname]
-                )
+        return (
+            trial.suggest_categorical(fullname, defaults[fullname])
+            if isinstance(defaults[fullname], Sequence) and
+            not isinstance(defaults[fullname],
+                           (str, bytes)) else defaults[fullname]
+        )
 
     quantum_kernel = (
-        _get_default_values(trial, fullname("quantum_kernel"), defaults)
-        if fullname("quantum_kernel") in defaults
-        else trial.suggest_categorical(
+        _get_default_values(trial, fullname("quantum_kernel"), defaults) if
+        fullname("quantum_kernel") in defaults else trial.suggest_categorical(
             fullname("quantum_kernel"),
             ["projected_quantum_kernel", "fidelity_quantum_kernel"],
         )
@@ -227,36 +233,40 @@ def sample_quantum_kernel_configuration(
 
     parameter_seed = (
         _get_default_values(trial, fullname("parameter_seed"), defaults)
-        if fullname("parameter_seed") in defaults
-        else trial.suggest_int(fullname("parameter_seed"), 0, 2**32 - 1)
+        if fullname("parameter_seed") in defaults else
+        trial.suggest_int(fullname("parameter_seed"), 0, 2**32 - 1)
     )
 
     if quantum_kernel == "projected_quantum_kernel":
         return {
             "quantum_kernel": "projected_quantum_kernel",
-            "measurement": (
-                _get_default_values(trial, fullname("measurement"), defaults)
-                if fullname("measurement") in defaults
-                else trial.suggest_categorical(
-                    fullname("measurement"),
-                    ["X", "Y", "Z", "XY", "XZ", "YZ", "XYZ"],
-                )
-            ),
-            "outer_kernel": (
-                _get_default_values(trial, fullname("outer_kernel"), defaults)
-                if fullname("outer_kernel") in defaults
-                else trial.suggest_categorical(
-                    fullname("outer_kernel"),
-                    [
-                        "Gaussian",
-                        "Matern",
-                        "ExpSineSquared",
-                        "RationalQuadratic",
-                        "DotProduct",
-                        "PairwiseKernel",
-                    ],
-                )
-            ),
+            "measurement":
+                (
+                    _get_default_values(
+                        trial, fullname("measurement"), defaults
+                    ) if fullname("measurement") in defaults else
+                    trial.suggest_categorical(
+                        fullname("measurement"),
+                        ["X", "Y", "Z", "XY", "XZ", "YZ", "XYZ"],
+                    )
+                ),
+            "outer_kernel":
+                (
+                    _get_default_values(
+                        trial, fullname("outer_kernel"), defaults
+                    ) if fullname("outer_kernel") in defaults else
+                    trial.suggest_categorical(
+                        fullname("outer_kernel"),
+                        [
+                            "Gaussian",
+                            "Matern",
+                            "ExpSineSquared",
+                            "RationalQuadratic",
+                            "DotProduct",
+                            "PairwiseKernel",
+                        ],
+                    )
+                ),
             "parameter_seed": parameter_seed,
         }
     elif quantum_kernel == "fidelity_quantum_kernel":
@@ -287,19 +297,22 @@ def sample_encoding_circuit_configuration(
         ValueError: If the encoding circuit is not supported.
 
     """
-
-    def _get_default_values(trial:Trial, fullname:str, defaults: Configuration):
+    def _get_default_values(
+        trial: Trial, fullname: str, defaults: Configuration
+    ):
         """ Helper function to handle default sequences"""
-        return (trial.suggest_categorical(fullname, defaults[fullname])
-                if isinstance(defaults[fullname], Sequence) and not isinstance(defaults[fullname], (str, bytes))
-                else defaults[fullname]
-                )
+        return (
+            trial.suggest_categorical(fullname, defaults[fullname])
+            if isinstance(defaults[fullname], Sequence) and
+            not isinstance(defaults[fullname],
+                           (str, bytes)) else defaults[fullname]
+        )
 
     config = {}
     config["encoding_circuit"] = (
         _get_default_values(trial, fullname("encoding_circuit"), defaults)
-        if fullname("encoding_circuit") in defaults
-        else trial.suggest_categorical(
+        if fullname("encoding_circuit") in defaults else
+        trial.suggest_categorical(
             fullname("encoding_circuit"),
             [
                 "chebyshev_pqc",
@@ -316,8 +329,8 @@ def sample_encoding_circuit_configuration(
 
     config["num_repetitions"] = (
         _get_default_values(trial, fullname("num_repetitions"), defaults)
-        if fullname("num_repetitions") in defaults
-        else trial.suggest_categorical(fullname("num_repetitions"), [1, 2, 3])
+        if fullname("num_repetitions") in defaults else
+        trial.suggest_categorical(fullname("num_repetitions"), [1, 2, 3])
     )
 
     if config["encoding_circuit"] in [
@@ -327,14 +340,15 @@ def sample_encoding_circuit_configuration(
     ]:
         config["chebyshev_alpha"] = (
             _get_default_values(trial, fullname("chebyshev_alpha"), defaults)
-            if fullname("chebyshev_alpha") in defaults
-            else trial.suggest_float(fullname("chebyshev_alpha"), 0.01, 10.0)
+            if fullname("chebyshev_alpha") in defaults else
+            trial.suggest_float(fullname("chebyshev_alpha"), 0.01, 10.0)
         )
         if config["encoding_circuit"] == "chebyshev_tower":
             config["num_chebyshev"] = (
-                _get_default_values(trial, fullname("num_chebyshev"), defaults)
-                if fullname("num_chebyshev") in defaults
-                else trial.suggest_categorical(fullname("num_chebyshev"), [1, 2, 3])
+                _get_default_values(
+                    trial, fullname("num_chebyshev"), defaults
+                ) if fullname("num_chebyshev") in defaults else trial.
+                suggest_categorical(fullname("num_chebyshev"), [1, 2, 3])
             )
 
     return config
@@ -360,18 +374,20 @@ def sample_observable_configuration(
         ValueError: If the observable is not supported.
 
     """
-
-    def _get_default_values(trial:Trial, fullname:str, defaults: Configuration):
+    def _get_default_values(
+        trial: Trial, fullname: str, defaults: Configuration
+    ):
         """ Helper function to handle default sequences"""
-        return (trial.suggest_categorical(fullname, defaults[fullname])
-                if isinstance(defaults[fullname], Sequence) and not isinstance(defaults[fullname], (str, bytes))
-                else defaults[fullname]
-                )
+        return (
+            trial.suggest_categorical(fullname, defaults[fullname])
+            if isinstance(defaults[fullname], Sequence) and
+            not isinstance(defaults[fullname],
+                           (str, bytes)) else defaults[fullname]
+        )
 
     observable = (
         defaults[fullname("observable")]
-        if fullname("observable") in defaults
-        else trial.suggest_categorical(
+        if fullname("observable") in defaults else trial.suggest_categorical(
             fullname("observable"),
             [
                 "single_pauli_x",
@@ -395,8 +411,8 @@ def sample_observable_configuration(
     if observable.startswith("single"):
         qubit = (
             _get_default_values(trial, fullname("observable_qubit"), defaults)
-            if fullname("observable_qubit") in defaults
-            else trial.suggest_int(fullname("observable_qubit"), 0, num_qubits - 1)
+            if fullname("observable_qubit") in defaults else
+            trial.suggest_int(fullname("observable_qubit"), 0, num_qubits - 1)
         )
         return {
             "observable": observable,

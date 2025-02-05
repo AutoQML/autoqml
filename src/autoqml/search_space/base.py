@@ -43,12 +43,17 @@ class TunableMixin:
             name = f'{module}.{name}'
         return f'{name}__{suffix}'
 
-    def _get_default_values(self, trial:Trial, suffix:str, defaults: Configuration):
+    def _get_default_values(
+        self, trial: Trial, suffix: str, defaults: Configuration
+    ):
         """ Helper function to handle default sequences """
-        return (trial.suggest_categorical(self._fullname(suffix),defaults[self._fullname(suffix)])
-                if isinstance(defaults[self._fullname(suffix)],Sequence) and not isinstance(defaults[self._fullname(suffix)], (str, bytes))
-                else defaults[self._fullname(suffix)]
-                )
+        return (
+            trial.suggest_categorical(
+                self._fullname(suffix), defaults[self._fullname(suffix)]
+            ) if isinstance(defaults[self._fullname(suffix)], Sequence) and
+            not isinstance(defaults[self._fullname(suffix)],
+                           (str, bytes)) else defaults[self._fullname(suffix)]
+        )
 
 
 class EstimatorChoice(BaseEstimator, TunableMixin, abc.ABC):
@@ -130,8 +135,8 @@ class EstimatorChoice(BaseEstimator, TunableMixin, abc.ABC):
 
         choice = (
             self._get_default_values(trial, 'choice', defaults)
-            if self._fullname('choice')
-            in defaults else trial.suggest_categorical(
+            if self._fullname('choice') in defaults else
+            trial.suggest_categorical(
                 self._fullname('choice'), list(available_components.keys())
             )
         )

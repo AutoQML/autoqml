@@ -14,8 +14,8 @@ from autoqml.search_space.util import (
 from autoqml.util.context import ConfigContext
 from autoqml.constants import TrialId
 
-class QRCClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
 
+class QRCClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
     def __init__(
         self,
         # encoding circuit related parameters
@@ -66,14 +66,15 @@ class QRCClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
             num_chebyshev=self.num_chebyshev,
         )
 
-        self.estimator = QRCClassifier(encoding_circuit=encoding_circuit,
-                                      executor=executor,
-                                      ml_model=self.ml_model,
-                                      operators=self.operators,
-                                      num_operators=self.num_operators,
-                                      operator_seed=self.operator_seed,
-                                      parameter_seed=self.parameter_seed
-                                      )
+        self.estimator = QRCClassifier(
+            encoding_circuit=encoding_circuit,
+            executor=executor,
+            ml_model=self.ml_model,
+            operators=self.operators,
+            num_operators=self.num_operators,
+            operator_seed=self.operator_seed,
+            parameter_seed=self.parameter_seed
+        )
 
         self.estimator.fit(X, y)
         return self
@@ -84,60 +85,80 @@ class QRCClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration, dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
 
         config = Configuration({key: None for key in self._get_param_names()})
 
         config["num_qubits"] = (
             self._get_default_values(trial, 'num_qubits', defaults)
-            if self._fullname("num_qubits") in defaults
-            else trial.suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
+            if self._fullname("num_qubits") in defaults else trial.
+            suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
         )
 
         config.update(
-            sample_encoding_circuit_configuration(trial, defaults, self._fullname)
+            sample_encoding_circuit_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         config.update(
             {
-                "ml_model": (
-                    self._get_default_values(trial, 'ml_model', defaults)
-                    if self._fullname("ml_model") in defaults
-                    else trial.suggest_categorical(self._fullname("ml_model"), ["mlp", "linear", "kernel"])
-                ),
-                "operators": (
-                    self._get_default_values(trial, 'operators', defaults)
-                    if self._fullname("operators") in defaults
-                    else trial.suggest_categorical(self._fullname("operators"), ["random_paulis", "single_paulis"])
-                ),
-                "parameter_seed": (
-                    self._get_default_values(trial, 'parameter_seed', defaults)
-                    if self._fullname("parameter_seed") in defaults
-                    else trial.suggest_int(
-                        self._fullname("parameter_seed"), 0, 2**32 - 1
-                    )
-                ),
+                "ml_model":
+                    (
+                        self._get_default_values(trial, 'ml_model', defaults)
+                        if self._fullname("ml_model") in defaults else
+                        trial.suggest_categorical(
+                            self._fullname("ml_model"),
+                            ["mlp", "linear", "kernel"]
+                        )
+                    ),
+                "operators":
+                    (
+                        self._get_default_values(trial, 'operators', defaults)
+                        if self._fullname("operators") in defaults else
+                        trial.suggest_categorical(
+                            self._fullname("operators"),
+                            ["random_paulis", "single_paulis"]
+                        )
+                    ),
+                "parameter_seed":
+                    (
+                        self._get_default_values(
+                            trial, 'parameter_seed', defaults
+                        ) if self._fullname("parameter_seed") in defaults else
+                        trial.suggest_int(
+                            self._fullname("parameter_seed"), 0, 2**32 - 1
+                        )
+                    ),
             }
         )
-        
+
         if config["operators"] == "random_paulis":
             config.update(
                 {
-                    "num_operators": (
-                        self._get_default_values(trial, 'num_operators', defaults)
-                        if self._fullname("num_operators") in defaults
-                        else trial.suggest_int(
-                            self._fullname("num_operators"), 1, 10000, log = True
-                        )
-                    ),
-                    "operator_seed": (
-                        self._get_default_values(trial, 'operator_seed', defaults)
-                        if self._fullname("operator_seed") in defaults
-                        else trial.suggest_int(
-                            self._fullname("operator_seed"), 0, 2**32 - 1
-                        )
-                    ),
+                    "num_operators":
+                        (
+                            self._get_default_values(
+                                trial, 'num_operators', defaults
+                            ) if self._fullname("num_operators") in defaults
+                            else trial.suggest_int(
+                                self._fullname("num_operators"),
+                                1,
+                                10000,
+                                log=True
+                            )
+                        ),
+                    "operator_seed":
+                        (
+                            self._get_default_values(
+                                trial, 'operator_seed', defaults
+                            ) if self._fullname("operator_seed") in defaults
+                            else trial.suggest_int(
+                                self._fullname("operator_seed"), 0, 2**32 - 1
+                            )
+                        ),
                 }
             )
 

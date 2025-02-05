@@ -21,12 +21,14 @@ class Accuracy(Metric):
     worst_result: float = 0.0
     mode_is_minimization: bool = False
 
+
 class BalancedAccuracy(Metric):
     def score(self, a: TargetData, b: TargetData) -> float:
         return balanced_accuracy_score(a, b)
 
     worst_result: float = 0.0
     mode_is_minimization: bool = False
+
 
 class RMSE(Metric):
     def score(self, a: TargetData, b: TargetData) -> float:

@@ -37,20 +37,11 @@ class AutoQMLFitCommand(Command):
     time_budget_for_this_task: timedelta
     configuration: Union[str, Configuration, None] = None
     use_multifidelity: bool = False
-    backend: Union[
-        Executor,
-        str,
-        Backend,
-        QiskitRuntimeService,
-        Session,
-        BaseEstimator,
-        BaseSampler,
-        PennylaneDevice,
-        None
-    ] = None
+    backend: Union[Executor, str, Backend, QiskitRuntimeService, Session,
+                   BaseEstimator, BaseSampler, PennylaneDevice, None] = None
     seed: Union[int, None] = 0
     sampler: Union[OptunaBaseSampler, None] = None
     num_startup_trials: int = 100
     log_file: Union[str, None] = "autoqml"
     time_budget_for_trials: Union[timedelta, None] = timedelta(minutes=5)
-    selection: str = "split" # or cv or time_ordered
+    selection: str = "split"  # or cv or time_ordered

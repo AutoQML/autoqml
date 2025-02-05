@@ -2,7 +2,7 @@ import abc
 import random
 import time
 import copy
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from typing import Callable
 
 import sys
@@ -31,8 +31,6 @@ from autoqml.search_space.preprocessing.downsampling import \
 from autoqml.search_space.preprocessing.encoding import EncoderChoice
 from autoqml.search_space.preprocessing.rescaling import RescalingChoice, RescalingChoiceQML
 from autoqml.search_space.regression import RegressionChoice
-
-
 
 
 class AutoQMLError(Exception):
@@ -71,6 +69,7 @@ def _define_by_run_func(
     config = pipeline.sample_configuration(trial, defaults, data_statistics)
     return config
 
+
 def _setup_logging(filename: str = None) -> None:
     """ Function to set up logging for the optimizer.
 
@@ -83,27 +82,35 @@ def _setup_logging(filename: str = None) -> None:
 
     # Set up general logger for warnings and errors to the console
     logger = logging.getLogger("autoqml.optimizer.optimizer")
-    
+
     # Remove all handlers
     while logger.handlers:
         logger.removeHandler(logger.handlers[0])
-    
+
     # Clear all filters
     for filter in logger.filters:
-        logger.removeFilter(filter)    
-    
-    logger.setLevel(logging.DEBUG)  # Allows all levels to pass through the logger
+        logger.removeFilter(filter)
+
+    logger.setLevel(
+        logging.DEBUG
+    )  # Allows all levels to pass through the logger
 
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.WARNING)  # Log only WARNING and ERROR to console
+    console_handler.setLevel(
+        logging.WARNING
+    )  # Log only WARNING and ERROR to console
     logger.addHandler(console_handler)
 
-    filename += "_" + str(datetime.fromtimestamp(time.time()).strftime(r"%Y-%m-%d_%H-%M-%S")) + ".log"
+    filename += "_" + str(
+        datetime.fromtimestamp(time.time()).strftime(r"%Y-%m-%d_%H-%M-%S")
+    ) + ".log"
 
     # Set up separate file handler for only INFO logs
     info_file_handler = RotatingFileHandler(filename)
     info_file_handler.setLevel(logging.INFO)
-    info_file_handler.addFilter(lambda record: record.levelno == logging.INFO)  # Only INFO level
+    info_file_handler.addFilter(
+        lambda record: record.levelno == logging.INFO
+    )  # Only INFO level
     logger.addHandler(info_file_handler)
 
 
@@ -115,26 +122,34 @@ class AutoQML(abc.ABC):
 
         all_qc_reg_methods = list(RegressionChoice.get_qc_components().keys())
         config_quantum_regression = {
-            'autoqml.search_space.regression.RegressionChoice__choice': copy.copy(all_qc_reg_methods)
+            'autoqml.search_space.regression.RegressionChoice__choice':
+                copy.copy(all_qc_reg_methods)
         }
         all_qc_reg_methods.remove("qnnr")
         config_quantum_regression_without_qnn = {
-            'autoqml.search_space.regression.RegressionChoice__choice': copy.copy(all_qc_reg_methods)
+            'autoqml.search_space.regression.RegressionChoice__choice':
+                copy.copy(all_qc_reg_methods)
         }
         config_classic_regression = {
-            'autoqml.search_space.regression.RegressionChoice__choice': list(RegressionChoice.get_classic_components().keys())
+            'autoqml.search_space.regression.RegressionChoice__choice':
+                list(RegressionChoice.get_classic_components().keys())
         }
 
-        all_qc_class_methods = list(ClassificationChoice.get_qc_components().keys())
+        all_qc_class_methods = list(
+            ClassificationChoice.get_qc_components().keys()
+        )
         config_quantum_classification = {
-            'autoqml.search_space.classification.ClassificationChoice__choice': copy.copy(all_qc_class_methods)
+            'autoqml.search_space.classification.ClassificationChoice__choice':
+                copy.copy(all_qc_class_methods)
         }
         all_qc_class_methods.remove("qnnc")
         config_quantum_classification_without_qnn = {
-            'autoqml.search_space.classification.ClassificationChoice__choice': copy.copy(all_qc_class_methods)
+            'autoqml.search_space.classification.ClassificationChoice__choice':
+                copy.copy(all_qc_class_methods)
         }
         config_classic_classification = {
-            'autoqml.search_space.classification.ClassificationChoice__choice': list(ClassificationChoice.get_classic_components().keys())
+            'autoqml.search_space.classification.ClassificationChoice__choice':
+                list(ClassificationChoice.get_classic_components().keys())
         }
 
         if cmd.X is None:
@@ -158,7 +173,9 @@ class AutoQML(abc.ABC):
             elif cmd.configuration == "classic_classification":
                 cmd.configuration = config_classic_classification
             else:
-                raise DataValidationError('configuration is not a valid string.')
+                raise DataValidationError(
+                    'configuration is not a valid string.'
+                )
 
         if not isinstance(cmd.X, InputData):
             raise DataValidationError(
@@ -176,14 +193,16 @@ class AutoQML(abc.ABC):
             raise DataValidationError('y is empty')
         if cmd.time_budget_for_this_task < timedelta(seconds=1):
             raise DataValidationError('time_left_for_this_task is too short.')
-        
+
         if cmd.time_budget_for_trials is None:
             cmd.time_budget_for_trials = cmd.time_budget_for_this_task
         else:
             if cmd.time_budget_for_trials < timedelta(seconds=1):
                 raise DataValidationError('time_left_for_trials is too short.')
-        
-        if cmd.sampler is not None and not isinstance(cmd.sampler, OptunaBaseSampler):
+
+        if cmd.sampler is not None and not isinstance(
+            cmd.sampler, OptunaBaseSampler
+        ):
             raise DataValidationError(
                 'sampler is not an instance of OptunaBaseSampler.'
             )
@@ -191,7 +210,9 @@ class AutoQML(abc.ABC):
             raise DataValidationError('num_startup_trials must be at least 1.')
 
         if cmd.selection not in ["cv", "split", "time_ordered"]:
-            raise DataValidationError('selection must be either "cv", "split" or "time_ordered".')
+            raise DataValidationError(
+                'selection must be either "cv", "split" or "time_ordered".'
+            )
 
     @abc.abstractmethod
     def _get_metric(self) -> Metric:
@@ -237,7 +258,7 @@ class AutoQML(abc.ABC):
             seed=cmd.seed,
             sampler=cmd.sampler,
             num_startup_trials=cmd.num_startup_trials,
-            selection = cmd.selection
+            selection=cmd.selection
         )
 
         if not best_config:
@@ -292,9 +313,11 @@ class AutoQMLTimeSeriesClassification(AutoQML):
     def __init__(self, metric: str = "accuracy"):
         super().__init__()
         if metric not in ["accuracy", "balanced_accuracy"]:
-            raise ValueError("Invalid metric. Must be either 'accuracy' or 'balanced_accuracy'.")
+            raise ValueError(
+                "Invalid metric. Must be either 'accuracy' or 'balanced_accuracy'."
+            )
         self._metric = metric
-        
+
     def _construct_search_space(self) -> TunablePipeline:
         # yapf: disable
         pipeline = TunablePipeline(
@@ -317,7 +340,9 @@ class AutoQMLTimeSeriesClassification(AutoQML):
         elif self._metric == "accuracy":
             return Accuracy()
         else:
-            raise ValueError("Invalid metric. Must be either 'accuracy' or 'balanced_accuracy'.")
+            raise ValueError(
+                "Invalid metric. Must be either 'accuracy' or 'balanced_accuracy'."
+            )
 
 
 class AutoQMLImageClassification(AutoQML):

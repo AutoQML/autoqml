@@ -11,7 +11,6 @@ class DataStatistics(abc.ABC):
 
 
 class FeatureExtractor(abc.ABC):
-
     def __init__(self):
         pass
 

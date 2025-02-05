@@ -35,8 +35,7 @@ class TestSearchSpaceClassic(TestCase):
         self.assertEqual(
             str(
                 type(automl.pipeline_.named_steps['classification'].estimator)
-            ),
-            "<class 'autoqml.search_space.classification.classic.svc.SVC'>"
+            ), "<class 'autoqml.search_space.classification.classic.svc.SVC'>"
         )
 
     def test_custom_config_fit_predict(self):

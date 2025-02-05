@@ -67,14 +67,17 @@ class TestSearchSpace(TestCase):
         cs = pipeline.sample_configuration(
             trial,
             {
-                "autoqml.search_space.classification.ClassificationChoice__choice": "qsvc"
+                "autoqml.search_space.classification.ClassificationChoice__choice":
+                    "qsvc"
             },
             data_statistics,
         )
         self.assertEquals(
             set(cs.keys()), {
-                'imputation__choice', 'classification__choice',
-                'classification__qsvc__C', 'classification__qsvc__num_qubits',
+                'imputation__choice',
+                'classification__choice',
+                'classification__qsvc__C',
+                'classification__qsvc__num_qubits',
                 'classification__qsvc__num_repetitions',
                 'classification__qsvc__num_chebyshev',
                 'classification__qsvc__encoding_circuit',

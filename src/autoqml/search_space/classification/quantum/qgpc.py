@@ -18,8 +18,8 @@ from autoqml.search_space.util import (
 from autoqml.util.context import ConfigContext
 from autoqml.constants import TrialId
 
-class QGPC(BaseEstimator, ClassifierMixin, TunableMixin):
 
+class QGPC(BaseEstimator, ClassifierMixin, TunableMixin):
     def __init__(
         self,
         # encoding circuit related parameters
@@ -88,23 +88,28 @@ class QGPC(BaseEstimator, ClassifierMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration, dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
 
         config = Configuration({key: None for key in self._get_param_names()})
 
         config["num_qubits"] = (
             self._get_default_values(trial, 'num_qubits', defaults)
-            if self._fullname("num_qubits") in defaults
-            else trial.suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
+            if self._fullname("num_qubits") in defaults else trial.
+            suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
         )
 
         config.update(
-            sample_encoding_circuit_configuration(trial, defaults, self._fullname)
+            sample_encoding_circuit_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         config.update(
-            sample_quantum_kernel_configuration(trial, defaults, self._fullname)
+            sample_quantum_kernel_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         return config

@@ -39,7 +39,9 @@ class MinMaxScaling(BaseEstimator, TransformerMixin, TunableMixin):
         }
 
 
-class MinMaxScalingForQuantumKernel(BaseEstimator, TransformerMixin, TunableMixin):
+class MinMaxScalingForQuantumKernel(
+    BaseEstimator, TransformerMixin, TunableMixin
+):
     def __init__(self, range_factor: float = 1):
         self.range_factor = range_factor
 
@@ -47,7 +49,9 @@ class MinMaxScalingForQuantumKernel(BaseEstimator, TransformerMixin, TunableMixi
         from math import pi
         from sklearn.preprocessing import MinMaxScaler
 
-        self.estimator = MinMaxScaler(feature_range=(-pi*self.range_factor, pi*self.range_factor))
+        self.estimator = MinMaxScaler(
+            feature_range=(-pi * self.range_factor, pi * self.range_factor)
+        )
         self.estimator.fit(X, y)
         return self
 

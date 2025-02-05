@@ -11,14 +11,11 @@ class Perceptron(BaseEstimator, TransformerMixin, TunableMixin):
     def __init__(self, penalty: str = None, alpha: float = 0.001):
         self.alpha = alpha
         self.penalty = penalty
-    
+
     def fit(self, X: InputData, y: TargetData):
         from sklearn.linear_model import Perceptron
 
-        self.estimator = Perceptron(
-            alpha=self.alpha,
-            penalty=self.penalty
-        )
+        self.estimator = Perceptron(alpha=self.alpha, penalty=self.penalty)
 
         self.estimator.fit(X, y)
         return self
@@ -44,9 +41,9 @@ class Perceptron(BaseEstimator, TransformerMixin, TunableMixin):
             'alpha':
                 (
                     self._get_default_values(trial, 'alpha', defaults)
-                    if self._fullname('alpha')
-                    in defaults else trial.suggest_float(
+                    if self._fullname('alpha') in defaults else
+                    trial.suggest_float(
                         self._fullname('alpha'), 0.03125, 32768, log=True
                     )
-                )         
+                )
         }

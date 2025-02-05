@@ -19,8 +19,8 @@ from autoqml.search_space.util import (
 from autoqml.util.context import ConfigContext
 from autoqml.constants import TrialId
 
-class QNNClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
 
+class QNNClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
     def __init__(
         self,
         # encoding circuit related parameters
@@ -92,8 +92,7 @@ class QNNClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
                     observable=self.observable,
                     num_qubits=self.num_qubits,
                     qubit=self.observable_qubit,
-                )
-                for _ in range(y.shape[1])
+                ) for _ in range(y.shape[1])
             ]
 
         self.estimator = squlearn_QNNClassifier(
@@ -118,19 +117,22 @@ class QNNClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration, dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration,
+        dataset_statistics: DataStatistics
     ) -> Configuration:
 
         config = Configuration({key: None for key in self._get_param_names()})
 
         config["num_qubits"] = (
             self._get_default_values(trial, 'num_qubits', defaults)
-            if self._fullname("num_qubits") in defaults
-            else trial.suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
+            if self._fullname("num_qubits") in defaults else trial.
+            suggest_categorical(self._fullname("num_qubits"), [1, 2, 4, 8])
         )
 
         config.update(
-            sample_encoding_circuit_configuration(trial, defaults, self._fullname)
+            sample_encoding_circuit_configuration(
+                trial, defaults, self._fullname
+            )
         )
 
         config.update(
@@ -141,45 +143,54 @@ class QNNClassifier(BaseEstimator, ClassifierMixin, TunableMixin):
 
         config.update(
             {
-                "learning_rate": (
-                    self._get_default_values(trial, 'learning_rate', defaults)
-                    if self._fullname("learning_rate") in defaults
-                    else trial.suggest_float(
-                        self._fullname("learning_rate"), 0.0001, 0.1
-                    )
-                ),
-                "batch_size": (
-                    self._get_default_values(trial, 'learning_rate', defaults)
-                    if self._fullname("batch_size") in defaults
-                    else trial.suggest_int(self._fullname("batch_size"), 1, 100)
-                ),
-                "epochs": (
-                    self._get_default_values(trial, 'epochs', defaults)
-                    if self._fullname("epochs") in defaults
-                    else trial.suggest_int(self._fullname("epochs"), 5, 100)
-                ),
-                "shuffle": (
-                    self._get_default_values(trial, 'shuffle', defaults)
-                    if self._fullname("shuffle") in defaults
-                    else trial.suggest_categorical(
-                        self._fullname("shuffle"), [True, False]
-                    )
-                ),
-                "variance": (
-                    self._get_default_values(trial, 'variance', defaults)
-                    if self._fullname("variance") in defaults
-                    else trial.suggest_categorical(
-                        self._fullname("variance"),
-                        [None, 0.001, 0.005, 0.0001, 0.0005],
-                    )
-                ),
-                "parameter_seed": (
-                    self._get_default_values(trial, 'parameter_seed', defaults)
-                    if self._fullname("parameter_seed") in defaults
-                    else trial.suggest_int(
-                        self._fullname("parameter_seed"), 0, 2**32 - 1
-                    )
-                ),
+                "learning_rate":
+                    (
+                        self._get_default_values(
+                            trial, 'learning_rate', defaults
+                        ) if self._fullname("learning_rate") in defaults else
+                        trial.suggest_float(
+                            self._fullname("learning_rate"), 0.0001, 0.1
+                        )
+                    ),
+                "batch_size":
+                    (
+                        self.
+                        _get_default_values(trial, 'learning_rate', defaults)
+                        if self._fullname("batch_size") in defaults else trial.
+                        suggest_int(self._fullname("batch_size"), 1, 100)
+                    ),
+                "epochs":
+                    (
+                        self._get_default_values(trial, 'epochs', defaults)
+                        if self._fullname("epochs") in defaults else
+                        trial.suggest_int(self._fullname("epochs"), 5, 100)
+                    ),
+                "shuffle":
+                    (
+                        self._get_default_values(trial, 'shuffle', defaults)
+                        if self._fullname("shuffle") in defaults else
+                        trial.suggest_categorical(
+                            self._fullname("shuffle"), [True, False]
+                        )
+                    ),
+                "variance":
+                    (
+                        self._get_default_values(trial, 'variance', defaults)
+                        if self._fullname("variance") in defaults else
+                        trial.suggest_categorical(
+                            self._fullname("variance"),
+                            [None, 0.001, 0.005, 0.0001, 0.0005],
+                        )
+                    ),
+                "parameter_seed":
+                    (
+                        self._get_default_values(
+                            trial, 'parameter_seed', defaults
+                        ) if self._fullname("parameter_seed") in defaults else
+                        trial.suggest_int(
+                            self._fullname("parameter_seed"), 0, 2**32 - 1
+                        )
+                    ),
             }
         )
 

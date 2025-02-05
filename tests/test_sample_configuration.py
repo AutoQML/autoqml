@@ -8,7 +8,6 @@ from autoqml.search_space.regression.quantum.qsvr import QSVR
 
 
 class TestSampleConfiguration(TestCase):
-
     def test_qnn(self):
         qnn = QNNRegressor()
         trial = MagicMock(spec=Trial)
@@ -32,14 +31,14 @@ class TestSampleConfiguration(TestCase):
         for param in expected_params:
             self.assertIn(param, config)
 
-
     def test_kernel(self):
         qsvr = QSVR()
         trial = MagicMock(spec=Trial)
         defaults = Configuration()
         dataset_statistics = MagicMock(spec=DataStatistics)
-        
-        trial.suggest_categorical.side_effect = lambda name, choices: choices[0]
+
+        trial.suggest_categorical.side_effect = lambda name, choices: choices[0
+                                                                             ]
 
         config = qsvr.sample_configuration(trial, defaults, dataset_statistics)
 
