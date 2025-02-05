@@ -4,17 +4,11 @@ import time
 import warnings
 import uuid
 from datetime import datetime, timedelta
+import queue
+import multiprocessing
 from typing import Any, Callable, Dict, Optional, Union
 
 import ray
-import queue
-import multiprocessing
-from autoqml.meta_learning.datastatistics import TabularStatistics
-from autoqml.constants import InputData, TargetData
-from autoqml.messages import AutoQMLFitCommand
-from autoqml.optimizer import evaluation, metric
-from autoqml.search_space import Configuration, SearchSpace
-from optuna import Trial
 from optuna import Trial as OptunaTrial
 from optuna.trial import TrialState
 from optuna.samplers import TPESampler
@@ -30,6 +24,12 @@ from ray.tune.search.optuna.optuna_search import (
 )
 from sklearn.model_selection import train_test_split
 from squlearn import Executor
+
+from autoqml.meta_learning.datastatistics import TabularStatistics
+from autoqml.constants import InputData, TargetData
+from autoqml.messages import AutoQMLFitCommand
+from autoqml.optimizer import evaluation, metric
+from autoqml.search_space import Configuration, SearchSpace
 
 
 class MyOptunaSearch(OptunaSearch):
@@ -97,7 +97,7 @@ class Optimizer(abc.ABC):
     @abc.abstractmethod
     def optimize(
         self,
-        search_space: Callable[[Trial, AutoQMLFitCommand, TabularStatistics],
+        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
                                Configuration],
         X: InputData,
         y: TargetData,
@@ -170,7 +170,7 @@ class RayOptimizer(Optimizer):
 
     def optimize(
         self,
-        search_space: Callable[[Trial, AutoQMLFitCommand, TabularStatistics],
+        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
                                Configuration],
         X: InputData,
         y: TargetData,
