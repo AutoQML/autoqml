@@ -1,50 +1,75 @@
-[tool.poetry]
-name = "autoqml-lib"
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "autoqml"
 version = "0.1.0"
-description = ""
-authors = ["marc <marc.zoeller@usu.com>", "Milan Marinov <milan.marinov@usu.com"]
+description = "A framework for automated QML"
 readme = "README.md"
-packages = [{include = "autoqml_lib"}]
+authors = [
+    { name = "Dennis Klau", email = "dennis.klau@iao.fraunhofer.de" },
+    { name = "Dennis Kleinhans", email = "dennis.kleinhans@ipa.fraunhofer.de" },
+    { name = "David Kreplin", email = "david.kreplin@ipa.fraunhofer.de" },
+    { name = "Milan Marinov", email = "milan.marinov@usu.com" },
+    { name = "Daniel Pranjic", email = "daniel.pranjic@iao.fraunhofer.de" },
+    { bame = "Andreas Röpnack", email = "andreas.roepnack@usu.com" },
+    { name = "Marco Roth", email = "marco.roth@ipa.fraunhofer.de" },
+    { name = "Moritz Willmann", email = "moritz.willmann@ipa.fraunhofer.de" },
+    { name = "Marc Zoeller", email = "marc.zoeller@usu.com" }
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "pandas (>=2.0.2,<3.0.0)",
+    "ray[tune] (>=2.4.0,<3.0.0)",
+    "squlearn (>=0.8.0)",
+    "rustworkx (>=0.12.0)",
+    "tune-sklearn (>=0.4.5,<1.0.0)",
+    "scikit-learn (>=1.2.2,<2.0.0)",
+    "protobuf (>=3.20,<4.0)",
+    "umap-learn (>=0.5.3,<1.0.0)",
+    "optuna (>=3.3.0,<4.0.0)",
+    "matplotlib (>=3.8.1,<4.0.0)",
+    "dill (>=0.3.7,<1.0.0)",
+    "lightning (>=2.2.0.post0,<3.0.0)",
+    "numpy (<2.0)"
+]
+requires-python=">=3.9,<3.11"
 
-[tool.poetry.dependencies]
-python = "^3.9, <3.11"
-pandas = "^2.0.2"
-ray = {extras = ["tune"], version = "^2.4.0"}
-squlearn = ">=0.8.0"
-rustworkx = ">=0.12.0"
-tune-sklearn = "^0.4.5"
-scikit-learn = "^1.2.2"
-protobuf = "3.20"
-umap-learn = "^0.5.3"
-optuna = "^3.3.0"
-matplotlib = "^3.8.1"
-dill = "^0.3.7"
-lightning = "^2.2.0.post0"
+[project.optional-dependencies]
+test = [
+    "pytest (>=7.4.0,<8.0.0)"
+]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
+dev = [
+    "debugpy (>=1.6.7,<2.0.0)",
+    "yapf (>=0.40.1,<1.0.0)",
+    "mypy (>=1.4.1,<2.0.0)",
+    "pylint (>=2.17.4,<3.0.0)",
+    "python-lsp-server[pylint, yapf] (>=1.7.4,<2.0.0)",
+    "pylsp-mypy (>=0.6.7,<1.0.0)",
+    "pyls-isort (>=0.2.2,<1.0.0)",
+    "flake8 (>=6.0.0,<7.0.0)",
+    "ipython (>=8.14.0,<9.0.0)",
+    "jupytext (>=1.15.2,<2.0.0)",
+    "jupyterlab (>=4.0.8,<5.0.0)",
+    "ipywidgets (>=8.1.1,<9.0.0)",
+    "setuptools (<70.0)"
+]
 
 [tool.pytest.ini_options]
 filterwarnings = [
-    # "ignore",  # would ignore all warnings
     "ignore::DeprecationWarning",
-    "ignore::PendingDeprecationWarning",
+    "ignore::PendingDeprecationWarning"
 ]
-
-[tool.poetry.group.dev.dependencies]
-debugpy = "^1.6.7"
-yapf = "^0.40.1"
-mypy = "^1.4.1"
-pylint = "^2.17.4"
-python-lsp-server = {extras = ["pylint", "yapf"], version = "^1.7.4"}
-pylsp-mypy = "^0.6.7"
-pyls-isort = "^0.2.2"
-flake8 = "^6.0.0"
-ipython = "^8.14.0"
-jupytext = "^1.15.2"
-jupyterlab = "^4.0.8"
-ipywidgets = "^8.1.1"
-setuptools = "<70.0"
 
 [tool.mypy]
 warn_return_any = true
@@ -67,11 +92,7 @@ based_on_style = "facebook"
 column_limit = 79
 
 [tool.pylint.'FORMAT']
-indent-after-paren=4
-indent-string='    '
-max-line-length=79
-docstring-min-length=5
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+indent-after-paren = 4
+indent-string = '    '
+max-line-length = 79
+docstring-min-length = 5

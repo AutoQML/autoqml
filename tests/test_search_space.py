@@ -3,15 +3,12 @@ from unittest import TestCase
 import optuna
 from optuna.samplers import TPESampler
 
-from autoqml_lib.meta_learning.datastatistics import TabularStatistics
-from autoqml_lib.search_space import Configuration
-from autoqml_lib.search_space.base import TunablePipeline
-from autoqml_lib.search_space.classification import ClassificationChoice, SVC
-from autoqml_lib.search_space.data_cleaning.imputation import (
+from autoqml.search_space import Configuration
+from autoqml.search_space.base import TunablePipeline
+from autoqml.search_space.classification import ClassificationChoice, SVC
+from autoqml.search_space.data_cleaning.imputation import (
     ConstantImputation, ImputationChoice, MeanImputation
 )
-
-data_statistics = TabularStatistics(n_samples=10, n_features=2)
 
 
 class TestSearchSpace(TestCase):
@@ -21,7 +18,7 @@ class TestSearchSpace(TestCase):
         study = optuna.create_study(sampler=sampler)
         trial = study.ask()
 
-        cs = constant.sample_configuration(trial, {}, data_statistics)
+        cs = constant.sample_configuration(trial, {})
         self.assertListEqual(list(cs.keys()), ['constant'])
 
     def test_choice(self):
@@ -34,9 +31,9 @@ class TestSearchSpace(TestCase):
 
         cs = choice.sample_configuration(
             trial, {
-                'autoqml_lib.search_space.data_cleaning.imputation.ImputationChoice__choice':
+                'autoqml.search_space.data_cleaning.imputation.ImputationChoice__choice':
                     'constant'
-            }, data_statistics
+            }
         )
         self.assertEquals(set(cs.keys()), {'choice', 'constant__constant'})
 
@@ -67,14 +64,16 @@ class TestSearchSpace(TestCase):
         cs = pipeline.sample_configuration(
             trial,
             {
-                "autoqml_lib.search_space.classification.ClassificationChoice__choice": "qsvc"
+                "autoqml.search_space.classification.ClassificationChoice__choice":
+                    "qsvc"
             },
-            data_statistics,
         )
         self.assertEquals(
             set(cs.keys()), {
-                'imputation__choice', 'classification__choice',
-                'classification__qsvc__C', 'classification__qsvc__num_qubits',
+                'imputation__choice',
+                'classification__choice',
+                'classification__qsvc__C',
+                'classification__qsvc__num_qubits',
                 'classification__qsvc__num_repetitions',
                 'classification__qsvc__num_chebyshev',
                 'classification__qsvc__encoding_circuit',
@@ -83,6 +82,7 @@ class TestSearchSpace(TestCase):
                 'classification__qsvc__chebyshev_alpha',
                 'classification__qsvc__quantum_kernel',
                 'classification__qsvc__measurement',
+                'classification__qsvc__trial_id',
                 'imputation__constant__constant',
             }
         )

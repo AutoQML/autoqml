@@ -1,13 +1,12 @@
 import logging
 from typing import Callable
-from autoqml_lib.automl import AutoQMLTimeSeriesClassification
-from autoqml_lib.optimizer.metric import Accuracy
-from autoqml_lib.messages import AutoQMLFitCommand
-from autoqml_lib.meta_learning.datastatistics import TabularStatistics
+from autoqml import TimeSeriesClassification
+from autoqml.optimizer.metric import Accuracy
+from autoqml import AutoQMLFitCommand
 from datetime import timedelta
 
-from autoqml_lib.optimizer.optimizer import RayOptimizer
-from autoqml_lib.search_space import Configuration, SearchSpace
+from autoqml.optimizer.optimizer import RayOptimizer
+from autoqml.search_space import Configuration, SearchSpace
 from optuna import Trial
 from sklearn.datasets import make_classification
 
@@ -18,7 +17,6 @@ logger = logging.getLogger(__name__)
 def search_space(
     trial: Trial,
     cmd: AutoQMLFitCommand,
-    data_statistics: TabularStatistics,
     pipeline_factory: Callable[..., SearchSpace],
 ) -> Configuration:
     return {'a': 0, 'b': 0.001}
@@ -35,11 +33,8 @@ def test_ray_optimizer():
         configuration={},
         backend=None,
     )
-    data_statistics = TabularStatistics(
-        n_samples=cmd.X.shape[0], n_features=cmd.X.shape[1]
-    )
 
-    pipeline_factory = AutoQMLTimeSeriesClassification()
+    pipeline_factory = TimeSeriesClassification()
 
     best = optimizer.optimize(
         search_space,
@@ -48,7 +43,6 @@ def test_ray_optimizer():
         time_budget=cmd.time_budget_for_this_task,
         fit_cmd=cmd,
         backend=cmd.backend,
-        data_statistics=data_statistics,
         pipeline_factory=pipeline_factory._construct_search_space(),
         metric_=pipeline_factory._get_metric()
     )

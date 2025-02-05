@@ -1,7 +1,7 @@
 # AutoQML Library Tutorial
 ## Part 1: Training and saving (quantum) machine learning pipelines with the AutoQML library
 
-This beginner-friendly tutorial will guide you through using the `autoqml_lib` Python library, a powerful tool designed for automating the tuning of classical as well as quantum machine learning model pipelines. 
+This beginner-friendly tutorial will guide you through using the `autoqml` Python library, a powerful tool designed for automating the tuning of classical as well as quantum machine learning model pipelines. 
 The tutorial is based on the KEB use case. The demo notebooks for all AutoQML use cases, including the KEB use case, follow the same pattern explained here. The demo notebooks can be found in their respective subdirectories under the `use_cases` directory.
 This is the first of two parts of the tutorial. By the end of this first part, you will be able to load data, visualize it, train models, and save your quantum machine learning pipelines using a Jupyter Notebook environment.
 
@@ -9,13 +9,13 @@ This is the first of two parts of the tutorial. By the end of this first part, y
 ### Step 0: Prerequisites:
 - Basic familiarity with Python programming
 - Installation of Jupyter Lab (or alternatively: Jupyter Notebook)
-- Installation of the `autoqml_lib` library and its dependencies. 
+- Installation of the `autoqml` library and its dependencies. 
 
 For more details about the above mentioned installations please check out the `README.md` file.
      
 ### Step 1: Setting Up Your Poetry Environment
 
-First, you need to ensure that you have the Poetry environment for the `autoqml_lib` project installed as described in the `README.md` file. As a result, JupyterLab should be installed and running. 
+First, you need to ensure that you have the Poetry environment for the `autoqml` project installed as described in the `README.md` file. As a result, JupyterLab should be installed and running. 
 
 Start your JupyterLab:
 
@@ -27,15 +27,15 @@ This command will open JupyterLab in your default web browser.
 
 ### Step 2: Importing Necessary Libraries
 
-Create a new Python notebook and start by importing the required libraries. The AutoQML library name is `autoqml_lib`. In the first cell of your notebook, type and run:
+Create a new Python notebook and start by importing the required libraries. The AutoQML library name is `autoqml`. In the first cell of your notebook, type and run:
 
 ```python
-import autoqml_lib
+import autoqml
 import pandas as pd
 import matplotlib.pyplot as plt
 ```
 
-This code block imports the `autoqml_lib` library for quantum machine learning, `pandas` for data manipulation, and `matplotlib` for data visualization. In later steps of the tutorial you will load some necessary classes from the `autoqml_lib` library.
+This code block imports the `autoqml` library for quantum machine learning, `pandas` for data manipulation, and `matplotlib` for data visualization. In later steps of the tutorial you will load some necessary classes from the `autoqml` library.
 
 ## Using AutoQML Pipelines
 ### Step 3: Loading and Visualizing Data
@@ -87,7 +87,7 @@ plt.show()
 
 ### Step 4: Training with autoqml
 
-Now, it's time to train a quantum machine learning model using `autoqml_lib`.
+Now, it's time to train a quantum machine learning model using `autoqml`.
 
 #### Initialize and Configure the AutoQML Library
 
@@ -97,31 +97,31 @@ This example configuration includes a timeout of 300 seconds. This means that th
 
 If no such custom configuration is provided (if the `custom_config` `dict` is empty), the AutoQML uses the entire available search space for finding the optimal pipeline configuration for your machine learning problem, including quantum as well as classical algorithms.
 
-Please note that it is your decision as user to instantiate the correct AutoQML class, corresponding to the machine learning problem you are solving: `AutoQMLTabularClassification`, `AutoQMLTimeSeriesClassification`, `AutoQMLTabularRegression`.
+Please note that it is your decision as user to instantiate the correct AutoQML class, corresponding to the machine learning problem you are solving: `TabularClassification`, `TimeSeriesClassification`, `TabularRegression` and `TimeSeriesRegression`.
 
-In the following example, the user wants to solve a timeseries classification task on his data and decides to instantiate the AutoQML-Lib class `AutoQMLTimeSeriesClassification`.
+In the following example, the user wants to solve a timeseries classification task on his data and decides to instantiate the AutoQML-Lib class `TimeSeriesClassification`.
 
 ```python
-from autoqml_lib.automl import AutoQMLTimeSeriesClassification
-from autoqml_lib.messages import AutoQMLFitCommand
+from autoqml import TimeSeriesClassification
+from autoqml import AutoQMLFitCommand
 
 custom_config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice':
+    'autoqml.search_space.classification.ClassificationChoice__choice':
         'qsvc',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice':
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice':
         'min_max_scaling',
-    'autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice':
+    'autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice':
         'no-op',
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__num_repetitions':
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__num_repetitions':
         4,
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__num_qubits':
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__num_qubits':
         3,
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__C':
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__C':
         100,
 }
 
 # Initialize the AutoQML Pipeline
-autoqml_pipeline = AutoQMLTimeSeriesClassification()
+autoqml_pipeline = TimeSeriesClassification()
 
 # The fit command contains the training data as well as 
 # configuration parameters for the pipeline.
@@ -135,7 +135,7 @@ cmd = AutoQMLFitCommand(
 
 #### Optimize the Pipeline and Train the Model(s)
 
-Using `autoqml_lib` to automatically find a good machine learning pipeline for your (quantum computing) machine learning projects is easy: In only one line of code you can create and fit an optimized pipeline for your machine learning task. In the following example, input features and target detail are contained in the `cmd` object, which was created in the previous section:
+Using `autoqml` to automatically find a good machine learning pipeline for your (quantum computing) machine learning projects is easy: In only one line of code you can create and fit an optimized pipeline for your machine learning task. In the following example, input features and target detail are contained in the `cmd` object, which was created in the previous section:
 
 ```python
 autoqml_pipeline.fit(cmd)
@@ -156,7 +156,7 @@ This will save your trained quantum machine learning pipeline to a file called `
 
 # Part 2: Evaluating and comparing machine learning pipelines with the AutoQML library
 
-The second part of this tutorial will help you to understand how to evaluate and compare different AutoQML pipelines using the `autoqml_lib` library in a Jupyter Notebook environment. You’ll learn how to load pre-trained models and compare their performance.
+The second part of this tutorial will help you to understand how to evaluate and compare different AutoQML pipelines using the `autoqml` library in a Jupyter Notebook environment. You’ll learn how to load pre-trained models and compare their performance.
 Please note, that it is recommended to create a new Jupyter Notebook for the second part.
 
 ### Step 1: Import Libraries
@@ -227,11 +227,11 @@ print('Accuracy Pipeline 2:', accuracy_score(y_test, y_pred_2))
 
 ### Conclusion
 
-Congratulations! You've just completed a beginner-level tutorial on using the `autoqml_lib` library through a Jupyter Notebook. You can now load and visualize data, train quantum machine learning models, and save your pipelines for future use. You have learned how to load, visualize, and evaluate multiple AutoQML pipelines using a Jupyter Notebook. Experiment with different parameters and datasets to enhance your understanding of AutoQML’s capabilities.
+Congratulations! You've just completed a beginner-level tutorial on using the `autoqml` library through a Jupyter Notebook. You can now load and visualize data, train quantum machine learning models, and save your pipelines for future use. You have learned how to load, visualize, and evaluate multiple AutoQML pipelines using a Jupyter Notebook. Experiment with different parameters and datasets to enhance your understanding of AutoQML’s capabilities.
 
 ### What's Next?
 
-- Explore more features of the `autoqml_lib` library.
+- Explore more features of the `autoqml` library.
 - Try training with different datasets.
 - Learn more about quantum computing and its applications in machine learning.
 - Fine-tune these models based on your specific datasets.

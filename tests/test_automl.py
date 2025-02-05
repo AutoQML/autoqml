@@ -3,12 +3,12 @@ from unittest import TestCase
 from datetime import timedelta
 from sklearn.datasets import make_classification
 
-from autoqml_lib.automl import AutoQMLTimeSeriesClassification
-from autoqml_lib.messages import AutoQMLFitCommand
+from autoqml import TimeSeriesClassification
+from autoqml import AutoQMLFitCommand
 
 
 def _fit(X, y, custom_config: dict = dict()):
-    automl = AutoQMLTimeSeriesClassification()
+    automl = TimeSeriesClassification()
     cmd = AutoQMLFitCommand(
         X, y, timedelta(seconds=5), configuration=custom_config
     )
@@ -26,7 +26,7 @@ class TestSearchSpaceClassic(TestCase):
         X, y = make_classification(n_samples=100, n_features=20, n_classes=2)
         automl = _fit(
             X, y, {
-                'autoqml_lib.search_space.classification.ClassificationChoice__choice':
+                'autoqml.search_space.classification.ClassificationChoice__choice':
                     'svc'
             }
         )
@@ -35,15 +35,14 @@ class TestSearchSpaceClassic(TestCase):
         self.assertEqual(
             str(
                 type(automl.pipeline_.named_steps['classification'].estimator)
-            ),
-            "<class 'autoqml_lib.search_space.classification.classic.svc.SVC'>"
+            ), "<class 'autoqml.search_space.classification.classic.svc.SVC'>"
         )
 
     def test_custom_config_fit_predict(self):
         X, y = make_classification(n_samples=100, n_features=20, n_classes=2)
         automl = _fit(
             X, y, {
-                'autoqml_lib.search_space.classification.ClassificationChoice__choice':
+                'autoqml.search_space.classification.ClassificationChoice__choice':
                     'svc'
             }
         )
@@ -59,7 +58,7 @@ class TestSearchSpaceQuantum(TestCase):
         X, y = make_classification(n_samples=100, n_features=5, n_classes=2)
         automl = _fit(
             X, y, {
-                'autoqml_lib.search_space.classification.ClassificationChoice__choice':
+                'autoqml.search_space.classification.ClassificationChoice__choice':
                     'qsvc'
             }
         )
@@ -69,14 +68,14 @@ class TestSearchSpaceQuantum(TestCase):
             str(
                 type(automl.pipeline_.named_steps['classification'].estimator)
             ),
-            "<class 'autoqml_lib.search_space.classification.quantum.qsvc.QSVC'>"
+            "<class 'autoqml.search_space.classification.quantum.qsvc.QSVC'>"
         )
 
     def test_qc_fit_predict(self):
         X, y = make_classification(n_samples=100, n_features=5, n_classes=2)
         automl = _fit(
             X, y, {
-                'autoqml_lib.search_space.classification.ClassificationChoice__choice':
+                'autoqml.search_space.classification.ClassificationChoice__choice':
                     'qsvc'
             }
         )
