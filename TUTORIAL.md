@@ -97,12 +97,12 @@ This example configuration includes a timeout of 300 seconds. This means that th
 
 If no such custom configuration is provided (if the `custom_config` `dict` is empty), the AutoQML uses the entire available search space for finding the optimal pipeline configuration for your machine learning problem, including quantum as well as classical algorithms.
 
-Please note that it is your decision as user to instantiate the correct AutoQML class, corresponding to the machine learning problem you are solving: `AutoQMLTabularClassification`, `AutoQMLTimeSeriesClassification`, `AutoQMLTabularRegression`.
+Please note that it is your decision as user to instantiate the correct AutoQML class, corresponding to the machine learning problem you are solving: `TabularClassification`, `TimeSeriesClassification`, `TabularRegression` and `TimeSeriesRegression`.
 
-In the following example, the user wants to solve a timeseries classification task on his data and decides to instantiate the AutoQML-Lib class `AutoQMLTimeSeriesClassification`.
+In the following example, the user wants to solve a timeseries classification task on his data and decides to instantiate the AutoQML-Lib class `TimeSeriesClassification`.
 
 ```python
-from autoqml.automl import AutoQMLTimeSeriesClassification
+from autoqml import TimeSeriesClassification
 from autoqml.messages import AutoQMLFitCommand
 
 custom_config = {
@@ -121,7 +121,7 @@ custom_config = {
 }
 
 # Initialize the AutoQML Pipeline
-autoqml_pipeline = AutoQMLTimeSeriesClassification()
+autoqml_pipeline = TimeSeriesClassification()
 
 # The fit command contains the training data as well as 
 # configuration parameters for the pipeline.

@@ -1,6 +1,6 @@
 import logging
 from typing import Callable
-from autoqml.automl import AutoQMLTimeSeriesClassification
+from autoqml import TimeSeriesClassification
 from autoqml.optimizer.metric import Accuracy
 from autoqml.messages import AutoQMLFitCommand
 from autoqml.meta_learning.datastatistics import TabularStatistics
@@ -39,7 +39,7 @@ def test_ray_optimizer():
         n_samples=cmd.X.shape[0], n_features=cmd.X.shape[1]
     )
 
-    pipeline_factory = AutoQMLTimeSeriesClassification()
+    pipeline_factory = TimeSeriesClassification()
 
     best = optimizer.optimize(
         search_space,

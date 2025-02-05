@@ -3,12 +3,12 @@ from unittest import TestCase
 from datetime import timedelta
 from sklearn.datasets import make_classification
 
-from autoqml.automl import AutoQMLTimeSeriesClassification
+from autoqml import TimeSeriesClassification
 from autoqml.messages import AutoQMLFitCommand
 
 
 def _fit(X, y, custom_config: dict = dict()):
-    automl = AutoQMLTimeSeriesClassification()
+    automl = TimeSeriesClassification()
     cmd = AutoQMLFitCommand(
         X, y, timedelta(seconds=5), configuration=custom_config
     )

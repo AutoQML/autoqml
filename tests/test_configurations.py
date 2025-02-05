@@ -2,7 +2,7 @@ from datetime import timedelta
 import ray
 import sklearn
 import sklearn.datasets
-from autoqml.automl import AutoQMLTabularClassification, AutoQMLTabularRegression
+from autoqml import TabularClassification, TabularRegression
 from autoqml.messages import AutoQMLFitCommand
 from autoqml.search_space.classification.classic.gaussian_process_classifier import GaussianProcessClassifier
 from autoqml.search_space.classification.classic.decision_tree_classifier import DecisionTreeClassifier
@@ -477,7 +477,7 @@ def test_SVC(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -508,7 +508,7 @@ def test_RidgeClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -539,7 +539,7 @@ def test_RandomForestClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -570,7 +570,7 @@ def test_Perceptron(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -601,7 +601,7 @@ def test_GaussianProcessClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -636,7 +636,7 @@ def test_DecisionTreeClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=2, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -667,7 +667,7 @@ def test_LogisticRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=10, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -698,7 +698,7 @@ def test_SVR(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -729,7 +729,7 @@ def test_RandomForestRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -760,7 +760,7 @@ def test_LinearRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -791,7 +791,7 @@ def test_KernelRidge(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -822,7 +822,7 @@ def test_DecisionTreeRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=1), configuration=config
@@ -853,7 +853,7 @@ def test_GaussianProcessRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=4
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -883,7 +883,7 @@ def test_QSVR(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=2
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -912,7 +912,7 @@ def test_QGPR(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=2
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -941,7 +941,7 @@ def test_QKRR(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=2
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -974,7 +974,7 @@ def test_QNNRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=2
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -1005,7 +1005,7 @@ def test_QRCRegressor(config: dict):
     X_train, y_train = sklearn.datasets.make_regression(
         n_samples=10, n_features=2
     )
-    automl = AutoQMLTabularRegression()
+    automl = TabularRegression()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -1034,7 +1034,7 @@ def test_QSVC(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=10, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -1063,7 +1063,7 @@ def test_QGPC(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=10, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -1096,7 +1096,7 @@ def test_QNNClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=10, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config
@@ -1127,7 +1127,7 @@ def test_QRCClassifier(config: dict):
     X_train, y_train = sklearn.datasets.make_classification(
         n_samples=10, n_features=4, n_classes=2
     )
-    automl = AutoQMLTabularClassification()
+    automl = TabularClassification()
 
     cmd = AutoQMLFitCommand(
         X_train, y_train, timedelta(seconds=2), configuration=config

@@ -41,7 +41,7 @@ class DataValidationError(AutoQMLError):
     pass
 
 
-class EmptyPipelineError(RuntimeError):
+class EmptyPipelineError(AutoQMLError):
     pass
 
 
@@ -290,7 +290,7 @@ class AutoQML(abc.ABC):
         raise NotImplementedError()
 
 
-class AutoQMLTabularClassification(AutoQML):
+class TabularClassification(AutoQML):
     def _construct_search_space(self) -> TunablePipeline:
         # yapf: disable
         pipeline = TunablePipeline(
@@ -309,7 +309,26 @@ class AutoQMLTabularClassification(AutoQML):
         return Accuracy()
 
 
-class AutoQMLTimeSeriesClassification(AutoQML):
+class TabularRegression(AutoQML):
+    def _construct_search_space(self) -> TunablePipeline:
+        # yapf: disable
+        pipeline = TunablePipeline(
+            steps=[
+                ('encoding', EncoderChoice()),
+                ('rescaling', RescalingChoice()),
+                ('dim_reduction', DimReductionChoice()),
+                ('rescalingQC', RescalingChoiceQML()),
+                ('regression', RegressionChoice()),
+            ]
+        )
+        # yapf: enable
+        return pipeline
+
+    def _get_metric(self) -> Metric:
+        return RMSE()
+
+
+class TimeSeriesClassification(AutoQML):
     def __init__(self, metric: str = "accuracy"):
         super().__init__()
         if metric not in ["accuracy", "balanced_accuracy"]:
@@ -345,24 +364,18 @@ class AutoQMLTimeSeriesClassification(AutoQML):
             )
 
 
-class AutoQMLImageClassification(AutoQML):
-    def _construct_search_space(self) -> TunablePipeline:
-        raise NotImplementedError()
-
-    def _get_metric(self) -> Metric:
-        raise NotImplementedError()
-
-
-class AutoQMLTabularRegression(AutoQML):
+class TimeSeriesRegression(AutoQML):
     def _construct_search_space(self) -> TunablePipeline:
         # yapf: disable
         pipeline = TunablePipeline(
             steps=[
                 ('encoding', EncoderChoice()),
+                ('imputation', ImputationChoice()),
                 ('rescaling', RescalingChoice()),
                 ('dim_reduction', DimReductionChoice()),
                 ('rescalingQC', RescalingChoiceQML()),
-                ('regression', RegressionChoice()),
+                ('downsampling', DownsamplingChoice()),
+                ('classification', RegressionChoice()),
             ]
         )
         # yapf: enable
