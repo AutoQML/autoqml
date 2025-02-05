@@ -16,7 +16,6 @@ from sklearn.utils.validation import check_is_fitted
 
 from autoqml.constants import InputData, TargetData
 from autoqml import AutoQMLFitCommand
-from autoqml.meta_learning.datastatistics import TabularStatistics
 from autoqml.optimizer import evaluation
 from autoqml.optimizer.metric import \
     Accuracy, BalancedAccuracy, MAE, Metric, RMSE
@@ -50,7 +49,6 @@ class EmptyPipelineError(AutoQMLError):
 def _define_by_run_func(
     trial: Trial,
     cmd: AutoQMLFitCommand,
-    data_statistics: TabularStatistics,
     pipeline_factory: Callable[..., SearchSpace],
 ) -> Configuration:
     # 4.Construct search space
@@ -62,13 +60,10 @@ def _define_by_run_func(
             'AutoQML._construct_search_space() for your machine learning task.'
         )
 
-    # 4.1 Use Meta-Learning to Adjust search space with additional data properties
-    # TODO
-
-    # 4.2 Overwrite whatever config parameter the user specified, with the user specified value.
+    # Overwrite whatever config parameter the user specified, with the user specified value.
     defaults = cmd.configuration
 
-    config = pipeline.sample_configuration(trial, defaults, data_statistics)
+    config = pipeline.sample_configuration(trial, defaults)
     return config
 
 
@@ -230,22 +225,13 @@ class AutoQML(abc.ABC):
         # 1. Validate input parameters
         self._validate_input_parameters(cmd)
 
-        # 2. Create search space
-        n_features = cmd.X.shape[1]
-        n_samples = cmd.X.shape[0]
-
-        # 3. Analyse input data to create Statistics
-        data_statistics = TabularStatistics(
-            n_samples=n_samples, n_features=n_features
-        )
-
-        # 5. Create Optimizer instance with adjusted search space
+        # 2. Create Optimizer instance with adjusted search space
         optimizer = RayOptimizer()
 
-        # 5.1 Setup logging
+        # 3. Setup logging
         _setup_logging(cmd.log_file)
 
-        # 6. Execute optimization to find optimal configuration
+        # 4. Execute optimization to find optimal configuration
         best_config = optimizer.optimize(
             _define_by_run_func,
             X=cmd.X,
@@ -253,7 +239,6 @@ class AutoQML(abc.ABC):
             time_budget=cmd.time_budget_for_this_task,
             fit_cmd=cmd,
             backend=cmd.backend,
-            data_statistics=data_statistics,
             pipeline_factory=self._construct_search_space,
             metric_=self._get_metric(),
             time_budget_for_trials=cmd.time_budget_for_trials,
@@ -268,7 +253,7 @@ class AutoQML(abc.ABC):
                 "Could not find a valid configuration with the provided constraints."
             )
 
-        # 7. Return fitted model instance from optimal configuration
+        # 5. Return fitted model instance from optimal configuration
         pipeline = evaluation.fit_configuration(
             X=cmd.X,
             y=cmd.y,

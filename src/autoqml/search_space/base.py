@@ -9,7 +9,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 
 from autoqml.constants import TrialId, InputData, TargetData
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.search_space import Configuration
 
 
@@ -30,8 +29,7 @@ class TunableMixin:
     trial_id: TrialId
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration,
-        dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
         pass
 
@@ -124,7 +122,6 @@ class EstimatorChoice(BaseEstimator, TunableMixin, abc.ABC):
         self,
         trial: Trial,
         defaults: Configuration,
-        dataset_statistics: DataStatistics,
         default: str = None,
         include: list[str] = None,
         exclude: list[str] = None
@@ -142,8 +139,8 @@ class EstimatorChoice(BaseEstimator, TunableMixin, abc.ABC):
         )
         config = {
             f'{choice}__{k}': v
-            for k, v in available_components[choice]().
-            sample_configuration(trial, defaults, dataset_statistics).items()
+            for k, v in available_components[choice]
+            ().sample_configuration(trial, defaults).items()
         }
         config['choice'] = choice
         return config
@@ -160,16 +157,14 @@ class TunablePipeline(Pipeline, TunableMixin):
     trial_id: TrialId
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration,
-        dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
         config = {}
         for name, estimator in self.steps:
             comp_config = {
                 f'{name}__{k}': v
-                for k, v in estimator.sample_configuration(
-                    trial, defaults, dataset_statistics
-                ).items()
+                for k, v in estimator.sample_configuration(trial, defaults
+                                                          ).items()
             }
             config.update(comp_config)
         return config

@@ -8,7 +8,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 import torch.utils.data as data
 from autoqml.constants import InputData, TargetData
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.search_space import Configuration
 from autoqml.search_space.base import TunableMixin
 from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
@@ -261,8 +260,7 @@ class Autoencoder(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration,
-        dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
         return {
             'latent_dim':

@@ -7,7 +7,6 @@ from squlearn.qnn import QNNRegressor as squlearn_QNNRegressor
 from squlearn.qnn.loss import SquaredLoss
 
 from autoqml.constants import InputData, TargetData
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.search_space import Configuration
 from autoqml.search_space.base import TunableMixin
 from autoqml.search_space.util import (
@@ -117,10 +116,7 @@ class QNNRegressor(BaseEstimator, RegressorMixin, TunableMixin):
         return self.estimator.predict(X)
 
     def sample_configuration(
-        self,
-        trial: Trial,
-        defaults: Configuration,
-        dataset_statistics: DataStatistics,
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
 
         config = Configuration({key: None for key in self._get_param_names()})

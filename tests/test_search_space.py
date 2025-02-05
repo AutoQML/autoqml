@@ -3,15 +3,12 @@ from unittest import TestCase
 import optuna
 from optuna.samplers import TPESampler
 
-from autoqml.meta_learning.datastatistics import TabularStatistics
 from autoqml.search_space import Configuration
 from autoqml.search_space.base import TunablePipeline
 from autoqml.search_space.classification import ClassificationChoice, SVC
 from autoqml.search_space.data_cleaning.imputation import (
     ConstantImputation, ImputationChoice, MeanImputation
 )
-
-data_statistics = TabularStatistics(n_samples=10, n_features=2)
 
 
 class TestSearchSpace(TestCase):
@@ -21,7 +18,7 @@ class TestSearchSpace(TestCase):
         study = optuna.create_study(sampler=sampler)
         trial = study.ask()
 
-        cs = constant.sample_configuration(trial, {}, data_statistics)
+        cs = constant.sample_configuration(trial, {})
         self.assertListEqual(list(cs.keys()), ['constant'])
 
     def test_choice(self):
@@ -36,7 +33,7 @@ class TestSearchSpace(TestCase):
             trial, {
                 'autoqml.search_space.data_cleaning.imputation.ImputationChoice__choice':
                     'constant'
-            }, data_statistics
+            }
         )
         self.assertEquals(set(cs.keys()), {'choice', 'constant__constant'})
 
@@ -70,7 +67,6 @@ class TestSearchSpace(TestCase):
                 "autoqml.search_space.classification.ClassificationChoice__choice":
                     "qsvc"
             },
-            data_statistics,
         )
         self.assertEquals(
             set(cs.keys()), {

@@ -3,7 +3,6 @@ from typing import Callable
 from autoqml import TimeSeriesClassification
 from autoqml.optimizer.metric import Accuracy
 from autoqml import AutoQMLFitCommand
-from autoqml.meta_learning.datastatistics import TabularStatistics
 from datetime import timedelta
 
 from autoqml.optimizer.optimizer import RayOptimizer
@@ -18,7 +17,6 @@ logger = logging.getLogger(__name__)
 def search_space(
     trial: Trial,
     cmd: AutoQMLFitCommand,
-    data_statistics: TabularStatistics,
     pipeline_factory: Callable[..., SearchSpace],
 ) -> Configuration:
     return {'a': 0, 'b': 0.001}
@@ -35,9 +33,6 @@ def test_ray_optimizer():
         configuration={},
         backend=None,
     )
-    data_statistics = TabularStatistics(
-        n_samples=cmd.X.shape[0], n_features=cmd.X.shape[1]
-    )
 
     pipeline_factory = TimeSeriesClassification()
 
@@ -48,7 +43,6 @@ def test_ray_optimizer():
         time_budget=cmd.time_budget_for_this_task,
         fit_cmd=cmd,
         backend=cmd.backend,
-        data_statistics=data_statistics,
         pipeline_factory=pipeline_factory._construct_search_space(),
         metric_=pipeline_factory._get_metric()
     )

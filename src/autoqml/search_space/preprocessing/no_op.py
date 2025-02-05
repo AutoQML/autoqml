@@ -4,7 +4,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from optuna import Trial
 
 from autoqml.search_space import Configuration
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.constants import InputData, TargetData
 from autoqml.search_space.base import TunableMixin
 
@@ -19,10 +18,7 @@ class NoOp(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-        self,
-        trial: Trial,
-        defaults: Configuration,
-        dataset_statistics: DataStatistics,
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
 
         return {}

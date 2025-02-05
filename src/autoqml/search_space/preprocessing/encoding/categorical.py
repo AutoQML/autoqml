@@ -5,7 +5,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
 
 from autoqml.constants import InputData, TargetData
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.search_space import SearchSpace, Configuration
 from autoqml.search_space.base import TunableMixin, IdentityTransformer
 from autoqml.search_space.preprocessing.encoding.util import split_types
@@ -84,7 +83,6 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration,
-        dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
         return {}

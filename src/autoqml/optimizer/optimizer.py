@@ -25,7 +25,6 @@ from ray.tune.search.optuna.optuna_search import (
 from sklearn.model_selection import train_test_split
 from squlearn import Executor
 
-from autoqml.meta_learning.datastatistics import TabularStatistics
 from autoqml.constants import InputData, TargetData
 from autoqml import AutoQMLFitCommand
 from autoqml.optimizer import evaluation, metric
@@ -97,9 +96,8 @@ class Optimizer(abc.ABC):
     @abc.abstractmethod
     def optimize(
         self,
-        search_space: Callable[
-            [evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
-            Configuration],
+        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand],
+                               Configuration],
         X: InputData,
         y: TargetData,
         time_budget: timedelta,
@@ -171,14 +169,12 @@ class RayOptimizer(Optimizer):
 
     def optimize(
         self,
-        search_space: Callable[
-            [evaluation.Trial, AutoQMLFitCommand, TabularStatistics],
-            Configuration],
+        search_space: Callable[[evaluation.Trial, AutoQMLFitCommand],
+                               Configuration],
         X: InputData,
         y: TargetData,
         time_budget: timedelta,
         fit_cmd: AutoQMLFitCommand,
-        data_statistics: TabularStatistics,
         backend: Union[
             Executor,
             str,
@@ -301,7 +297,6 @@ class RayOptimizer(Optimizer):
         algo = MyOptunaSearch(
             func_kwargs={
                 'cmd': fit_cmd,
-                'data_statistics': data_statistics,
                 'pipeline_factory': pipeline_factory,
             },
             space=search_space,

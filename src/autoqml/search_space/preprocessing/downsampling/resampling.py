@@ -6,7 +6,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils import resample
 
 from autoqml.constants import InputData, TargetData
-from autoqml.meta_learning.datastatistics import DataStatistics
 from autoqml.search_space import Configuration
 from autoqml.search_space.base import TunableMixin
 
@@ -64,8 +63,7 @@ class Resampling(BaseEstimator, TransformerMixin, TunableMixin):
         return X
 
     def sample_configuration(
-        self, trial: Trial, defaults: Configuration,
-        dataset_statistics: DataStatistics
+        self, trial: Trial, defaults: Configuration
     ) -> Configuration:
         return {
             'stratify':
