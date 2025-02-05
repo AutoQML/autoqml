@@ -69,14 +69,3 @@ If necessary, install the Poetry plugin `poetry-plugin-export`:
 ``` bash
 $ poetry self add poetry-plugin-export
 ```
-
-
-## Introduction to AutoQML via the Use Cases Notebooks
-The best way to introduce yourself to`autoqml-lib`is to try out the use cases Jupyter notebooks. These can be found in the `use_cases` directory:
-- Use case KEB
-  - `use_cases/keb/training.ipynb`: Train and save an `autoqml-lib` pipeline with `MinMaxScaler` and `QSVC`.
-  - `use_cases/keb/evaluation.ipynb`: Evaluate and visualize the classification results of the trained pipeline(s).
-- Use case Zeppelin:
-  - `use_cases/zeppelin/demo.ipynb`: Train an `autoqml-lib` pipeline with an `autoencoder` and `QSVR`, and make predictions with the trained pipeline based on test data.
- 
-
