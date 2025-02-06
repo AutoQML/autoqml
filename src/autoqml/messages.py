@@ -29,3 +29,4 @@ class AutoQMLFitCommand:
     log_file: Union[str, None] = "autoqml"
     time_budget_for_trials: Union[timedelta, None] = timedelta(minutes=5)
     selection: str = "split"  # or cv or time_ordered
+    verbosity: int = 2
