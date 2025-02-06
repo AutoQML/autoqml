@@ -69,7 +69,7 @@ def _define_by_run_func(
     return config
 
 
-def _setup_logging(filename: str = None, ) -> None:
+def _setup_logging(filename: str = None) -> None:
     """ Function to set up logging for the optimizer. 
 
     Args:
