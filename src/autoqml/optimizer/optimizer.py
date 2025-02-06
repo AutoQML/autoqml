@@ -51,14 +51,6 @@ class OutputControl:
     def output_off(self):
         """ Switch off the outputs """
 
-        # # Function to print all loggers
-        # logger_dict = logging.Logger.manager.loggerDict
-        # for name, logger in logger_dict.items():
-        #     if isinstance(logger, logging.Logger):  # Check if it's a Logger instance
-        #         if "lightning" in name:
-        #             logging.getLogger(name).setLevel(logging.WARNING)
-        #             logging.getLogger(name).disabled = True
-
         self.optuna_logging = logging.getLogger("optuna").getEffectiveLevel()
         logging.getLogger("optuna").setLevel(logging.WARNING)
 
