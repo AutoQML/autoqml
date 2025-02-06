@@ -69,7 +69,7 @@ def _define_by_run_func(
     return config
 
 
-def _setup_logging(filename: str = None,) -> None:
+def _setup_logging(filename: str = None, ) -> None:
     """ Function to set up logging for the optimizer. 
 
     Args:
@@ -92,11 +92,12 @@ def _setup_logging(filename: str = None,) -> None:
     logger.setLevel(logging.INFO)
 
     # Generate a timestamped filename
-    timestamp = datetime.fromtimestamp(time.time()).strftime(r"%Y-%m-%d_%H-%M-%S")
+    timestamp = datetime.fromtimestamp(time.time()
+                                      ).strftime(r"%Y-%m-%d_%H-%M-%S")
     log_filename = f"{filename}_{timestamp}.log"
-    
+
     # Set up a file handler for INFO level logs
-    info_file_handler = RotatingFileHandler(log_filename)  
+    info_file_handler = RotatingFileHandler(log_filename)
     info_file_handler.setLevel(logging.INFO)
 
     # Add a filter to only log INFO level messages

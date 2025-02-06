@@ -48,7 +48,6 @@ class OutputControl:
         self.lightning_fabric = None
         self.lightning_pytorch = None
 
-
     def output_off(self):
         """ Switch off the outputs """
 
@@ -63,28 +62,38 @@ class OutputControl:
         self.optuna_logging = logging.getLogger("optuna").getEffectiveLevel()
         logging.getLogger("optuna").setLevel(logging.WARNING)
 
-        self.lightning_fabric = logging.getLogger("lightning.fabric").getEffectiveLevel()
+        self.lightning_fabric = logging.getLogger("lightning.fabric"
+                                                 ).getEffectiveLevel()
         logging.getLogger("lightning.fabric").setLevel(logging.WARNING)
 
-        self.lightning_pytorch = logging.getLogger("lightning.pytorch").getEffectiveLevel()
+        self.lightning_pytorch = logging.getLogger("lightning.pytorch"
+                                                  ).getEffectiveLevel()
         logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)
 
-        self.original_stdout_fd = copy.copy(os.dup(1))  # Save file descriptor 1 (`stdout`)
-        self.original_stderr_fd = copy.copy(os.dup(2))  # Save file descriptor 2 (`stderr`)
+        self.original_stdout_fd = copy.copy(
+            os.dup(1)
+        )  # Save file descriptor 1 (`stdout`)
+        self.original_stderr_fd = copy.copy(
+            os.dup(2)
+        )  # Save file descriptor 2 (`stderr`)
 
         devnull = open(os.devnull, 'w')
         sys.stderr = devnull
         sys.stdout = devnull
 
         devnull = os.open(os.devnull, os.O_WRONLY)
-        os.dup2(devnull, 1)  # Replace file descriptor 1 (stdout) with `/dev/null`
-        os.dup2(devnull, 2)  # Replace file descriptor 2 (stderr) with `/dev/null`
+        os.dup2(
+            devnull, 1
+        )  # Replace file descriptor 1 (stdout) with `/dev/null`
+        os.dup2(
+            devnull, 2
+        )  # Replace file descriptor 2 (stderr) with `/dev/null`
         os.close(devnull)
         return self.original_stdout_fd
 
     def output_on(self):
         """ Restore the outputs """
-        os.dup2(self.original_stdout_fd, 1) 
+        os.dup2(self.original_stdout_fd, 1)
         os.close(self.original_stdout_fd)
         os.dup2(self.original_stderr_fd, 2)
         os.close(self.original_stderr_fd)
@@ -94,6 +103,7 @@ class OutputControl:
         logging.getLogger("optuna").setLevel(self.optuna_logging)
         logging.getLogger("lightning.fabric").setLevel(self.lightning_fabric)
         logging.getLogger("lightning.pytorch").setLevel(self.lightning_pytorch)
+
 
 class MyOptunaSearch(OptunaSearch):
     def __init__(self, func_kwargs: Dict, *args, **kwargs):
@@ -181,7 +191,7 @@ class Optimizer(abc.ABC):
         sampler: Union[OptunaBaseSampler, None] = None,
         num_startup_trials: int = 100,
         time_budget_for_trials: Union[timedelta, None] = None,
-        selection: str = "split" # or cv
+        selection: str = "split"  # or cv
     ) -> Configuration:
         raise NotImplementedError()
 
@@ -274,12 +284,7 @@ class RayOptimizer(Optimizer):
         else:
             original_stdout_fd = copy.copy(os.dup(1))
 
-
-        def _trainable(
-            config: Configuration,
-            verbosity: int,
-            stdout_fd
-        ):
+        def _trainable(config: Configuration, verbosity: int, stdout_fd):
             logger = logging.getLogger(__name__)
             logger.setLevel(logging.INFO)
 
@@ -352,7 +357,10 @@ class RayOptimizer(Optimizer):
             )
 
             if verbosity == 1:
-                method = config.get("regression__choice", config.get("classification__choice", ""))
+                method = config.get(
+                    "regression__choice",
+                    config.get("classification__choice", "")
+                )
 
                 s = (
                     f"Trial start: {datetime.fromtimestamp(startt)}, "
@@ -364,7 +372,7 @@ class RayOptimizer(Optimizer):
                     s += f", Method: {method}"
 
                 os.write(stdout_fd, s.encode('utf-8') + b"\n")
-            
+
             train.report({'score': trial.loss})
             return {'score': trial.loss}
 
@@ -389,9 +397,17 @@ class RayOptimizer(Optimizer):
             sampler=sampler,
         )
 
-        ray.init(configure_logging=False, local_mode=self.local_mode, logging_level=0)
+        ray.init(
+            configure_logging=False,
+            local_mode=self.local_mode,
+            logging_level=0
+        )
         tuner = tune.Tuner(
-            partial(_trainable, verbosity=fit_cmd.verbosity, stdout_fd=original_stdout_fd),
+            partial(
+                _trainable,
+                verbosity=fit_cmd.verbosity,
+                stdout_fd=original_stdout_fd
+            ),
             tune_config=tune.TuneConfig(
                 search_alg=algo,
                 time_budget_s=time_budget,
