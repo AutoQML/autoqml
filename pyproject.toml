@@ -13,7 +13,7 @@ authors = [
     { name = "David Kreplin", email = "david.kreplin@ipa.fraunhofer.de" },
     { name = "Milan Marinov", email = "milan.marinov@usu.com" },
     { name = "Daniel Pranjic", email = "daniel.pranjic@iao.fraunhofer.de" },
-    { bame = "Andreas Röpnack", email = "andreas.roepnack@usu.com" },
+    { name = "Andreas Röpnack", email = "andreas.roepnack@usu.com" },
     { name = "Marco Roth", email = "marco.roth@ipa.fraunhofer.de" },
     { name = "Moritz Willmann", email = "moritz.willmann@ipa.fraunhofer.de" },
     { name = "Marc Zoeller", email = "marc.zoeller@usu.com" }
