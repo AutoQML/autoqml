@@ -8,6 +8,8 @@ from typing import Callable
 import sys
 import logging
 from logging.handlers import RotatingFileHandler
+import os
+from pathlib import Path
 
 import numpy as np
 from optuna import Trial
@@ -68,52 +70,47 @@ def _define_by_run_func(
 
 
 def _setup_logging(filename: str = None) -> None:
-    """ Function to set up logging for the optimizer.
+    """ Function to set up logging for the optimizer. 
 
     Args:
         filename (str): The filename to save the log file to. If None, no log file will be created.
     """
+    # Deactivate executor logging
+    logging.getLogger("executor").setLevel(logging.WARNING)
+    logging.getLogger("executor").disabled = True
 
-    if filename is None:
-        return None
+    # Get the logger instance
+    logger = logging.getLogger("autoqml_lib.optimizer.optimizer")
 
-    # Set up general logger for warnings and errors to the console
-    logger = logging.getLogger("autoqml.optimizer.optimizer")
-
-    # Remove all handlers
-    while logger.handlers:
-        logger.removeHandler(logger.handlers[0])
-
-    # Clear all filters
-    for filter in logger.filters:
+    # Reset the logger by removing all handlers and filters
+    for handler in list(logger.handlers):
+        logger.removeHandler(handler)
+    for filter in list(logger.filters):
         logger.removeFilter(filter)
 
-    logger.setLevel(
-        logging.DEBUG
-    )  # Allows all levels to pass through the logger
+    # Set logger level
+    logger.setLevel(logging.INFO)
 
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(
-        logging.WARNING
-    )  # Log only WARNING and ERROR to console
-    logger.addHandler(console_handler)
+    # Generate a timestamped filename
+    timestamp = datetime.fromtimestamp(time.time()
+                                      ).strftime(r"%Y-%m-%d_%H-%M-%S")
+    log_filename = f"{filename}_{timestamp}.log"
 
-    filename += "_" + str(
-        datetime.fromtimestamp(time.time()).strftime(r"%Y-%m-%d_%H-%M-%S")
-    ) + ".log"
-
-    # Set up separate file handler for only INFO logs
-    info_file_handler = RotatingFileHandler(filename)
+    # Set up a file handler for INFO level logs
+    info_file_handler = RotatingFileHandler(log_filename)
     info_file_handler.setLevel(logging.INFO)
-    info_file_handler.addFilter(
-        lambda record: record.levelno == logging.INFO
-    )  # Only INFO level
+
+    # Add a filter to only log INFO level messages
+    info_file_handler.addFilter(lambda record: record.levelno == logging.INFO)
+
+    # Add the handler to the logger
     logger.addHandler(info_file_handler)
 
 
 class AutoQML(abc.ABC):
     def __init__(self, seed: int = 42):
         self.seed = seed
+        self.path = Path().absolute()
 
     def _validate_input_parameters(self, cmd: AutoQMLFitCommand) -> None:
 
@@ -225,6 +222,9 @@ class AutoQML(abc.ABC):
         # 1. Validate input parameters
         self._validate_input_parameters(cmd)
 
+        if cmd.verbosity >= 1:
+            print("AutoQML optimization started")
+
         # 2. Create Optimizer instance with adjusted search space
         optimizer = RayOptimizer()
 
@@ -263,6 +263,9 @@ class AutoQML(abc.ABC):
             trial=None,
         )
         self.pipeline_ = pipeline
+
+        # Change path back to original path
+        os.chdir(self.path)
 
         return self
 
