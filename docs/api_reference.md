@@ -677,7 +677,7 @@ config = {
 
 ### Real-World Examples
 
-#### Time Series Classification (KEB Use Case)
+#### Time Series Classification
 
 ```python
 config = {
@@ -687,7 +687,7 @@ config = {
 }
 ```
 
-#### Tabular Regression (Zeppelin Use Case)
+#### Tabular Regression
 
 ```python
 config = {

@@ -27,9 +27,6 @@ Welcome to the AutoQML Library documentation! This library provides tools for au
 4. [Examples](./examples.md)
 
    - Basic Usage Examples
-   - Advanced Use Cases
-   - KEB Use Case
-   - Zeppelin Use Case
 
 5. [Contributing](./contributing.md)
    - Development Setup
