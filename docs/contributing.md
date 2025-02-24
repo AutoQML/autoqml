@@ -6,8 +6,8 @@ We welcome contributions to the AutoQML library! This guide will help you get st
 
 1. Fork and clone the repository:
    ```bash
-   git clone https://github.com/yourusername/autoqml-lib.git
-   cd autoqml-lib
+   git clone https://github.com/yourusername/autoqml.git
+   cd autoqml
    ```
 
 2. Install development dependencies with Poetry:
@@ -36,7 +36,7 @@ We follow these coding standards:
 
 2. Ensure test coverage:
    ```bash
-   pytest --cov=autoqml_lib tests/
+   pytest --cov=autoqml tests/
    ```
 
 3. Write tests for new features:

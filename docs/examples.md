@@ -7,8 +7,8 @@
 Note that fully automatic pipelines &mdash; `custom_config = {}` &mdash; require a significantly longer amount of time to produce a good pipeline.
 
 ```python
-from autoqml_lib.automl import AutoQMLTimeSeriesClassification
-from autoqml_lib.messages import AutoQMLFitCommand
+from autoqml import AutoQMLTimeSeriesClassification
+from autoqml import AutoQMLFitCommand
 from datetime import timedelta
 import numpy as np
 
@@ -37,11 +37,11 @@ predictions = pipeline.predict(X_test)
 
 ```python
 custom_config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice': 'qsvc',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'min_max_scaling',
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__num_layers': 4,
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__num_qubits': 3,
-    'autoqml_lib.search_space.classification.quantum.qsvc.QSVC__C': 100,
+    'autoqml.search_space.classification.ClassificationChoice__choice': 'qsvc',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'min_max_scaling',
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__num_layers': 4,
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__num_qubits': 3,
+    'autoqml.search_space.classification.quantum.qsvc.QSVC__C': 100,
 }
 
 cmd = AutoQMLFitCommand(
@@ -85,7 +85,7 @@ The Zeppelin use case shows a regression pipeline with autoencoder for data redu
 
 1. Setup:
 ```python
-from autoqml_lib.automl import AutoQMLTabularRegression
+from autoqml import AutoQMLTabularRegression
 
 pipeline = AutoQMLTabularRegression()
 ```
@@ -93,7 +93,7 @@ pipeline = AutoQMLTabularRegression()
 2. Training with autoencoder:
 ```python
 config = {
-    'autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice': 'autoencoder'
+    'autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice': 'autoencoder'
 }
 
 cmd = AutoQMLFitCommand(

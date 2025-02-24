@@ -13,7 +13,7 @@ Configuration keys follow this format: `module.path.ClassName__parameter`
 For example:
 
 ```python
-'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr'
+'autoqml.search_space.regression.RegressionChoice__choice': 'svr'
 ```
 
 #### Configuration Dictionary Structure
@@ -27,8 +27,8 @@ Example:
 
 ```python
 custom_config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
 }
 ```
 
@@ -81,8 +81,8 @@ For regression tasks on tabular data.
 
 ```python
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
 }
 ```
 
@@ -96,8 +96,8 @@ For classification tasks on tabular data.
 
 ```python
 config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
 }
 ```
 #### Time Series Classification Pipeline
@@ -110,8 +110,8 @@ For classification tasks on time series data.
 
 ```python
 config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
 }
 ```
 
@@ -122,7 +122,7 @@ config = {
 ##### TabularizeTimeSeries
 
 **Class**: `TabularizeTimeSeries`
-**Module**: `autoqml_lib.search_space.data_loading.timeseries.tabularize`
+**Module**: `autoqml.search_space.data_loading.timeseries.tabularize`
 
 A specialized component for converting time series data into a tabular format. This component is designed for specific use cases and may require source code modification for custom requirements.
 
@@ -154,7 +154,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### ConstantImputation
 
 **Class**: `ConstantImputation`
-**Module**: `autoqml_lib.search_space.data_cleaning.imputation.constant`
+**Module**: `autoqml.search_space.data_cleaning.imputation.constant`
 
 | Parameter  | Config Key                  | Type | Default | Range/Choices | Description                 |
 | ---------- | --------------------------- | ---- | ------- | ------------- | --------------------------- |
@@ -163,7 +163,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### MeanImputation
 
 **Class**: `MeanImputation`
-**Module**: `autoqml_lib.search_space.data_cleaning.imputation.mean`
+**Module**: `autoqml.search_space.data_cleaning.imputation.mean`
 
 | Parameter | Config Key                 | Type | Default | Range/Choices      | Description         |
 | --------- | -------------------------- | ---- | ------- | ------------------ | ------------------- |
@@ -172,7 +172,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### DropImputation
 
 **Class**: `DropImputation`
-**Module**: `autoqml_lib.search_space.data_cleaning.imputation.drop`
+**Module**: `autoqml.search_space.data_cleaning.imputation.drop`
 
 | Parameter | Config Key                  | Type  | Default | Range/Choices | Description             |
 | --------- | --------------------------- | ----- | ------- | ------------- | ----------------------- |
@@ -185,7 +185,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### CategoricalEncoder
 
 **Class**: `CategoricalEncoder`
-**Module**: `autoqml_lib.search_space.preprocessing.encoding.categorical`
+**Module**: `autoqml.search_space.preprocessing.encoding.categorical`
 
 | Parameter      | Config Key                           | Type  | Default | Range/Choices | Description                              |
 | -------------- | ------------------------------------ | ----- | ------- | ------------- | ---------------------------------------- |
@@ -195,7 +195,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### OneHotEncoder
 
 **Class**: `OneHotEncoder`
-**Module**: `autoqml_lib.search_space.preprocessing.encoding.one_hot`
+**Module**: `autoqml.search_space.preprocessing.encoding.one_hot`
 
 | Parameter      | Config Key                      | Type  | Default | Range/Choices | Description                              |
 | -------------- | ------------------------------- | ----- | ------- | ------------- | ---------------------------------------- |
@@ -207,7 +207,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### Autoencoder
 
 **Class**: `Autoencoder`
-**Module**: `autoqml_lib.search_space.preprocessing.dim_reduction.autoencoder`
+**Module**: `autoqml.search_space.preprocessing.dim_reduction.autoencoder`
 
 | Parameter     | Config Key                   | Type | Default    | Range/Choices                             | Description                           |
 | ------------- | ---------------------------- | ---- | ---------- | ----------------------------------------- | ------------------------------------- |
@@ -220,7 +220,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### PCA
 
 **Class**: `PCA`
-**Module**: `autoqml_lib.search_space.preprocessing.dim_reduction.pca`
+**Module**: `autoqml.search_space.preprocessing.dim_reduction.pca`
 
 | Parameter    | Config Key          | Type | Default | Range/Choices   | Description                  |
 | ------------ | ------------------- | ---- | ------- | --------------- | ---------------------------- |
@@ -230,7 +230,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### TSNE
 
 **Class**: `TSNE`
-**Module**: `autoqml_lib.search_space.preprocessing.dim_reduction.tsne`
+**Module**: `autoqml.search_space.preprocessing.dim_reduction.tsne`
 
 | Parameter    | Config Key           | Type  | Default | Range/Choices | Description          |
 | ------------ | -------------------- | ----- | ------- | ------------- | -------------------- |
@@ -240,7 +240,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### UMAP
 
 **Class**: `UMAP`
-**Module**: `autoqml_lib.search_space.preprocessing.dim_reduction.umap`
+**Module**: `autoqml.search_space.preprocessing.dim_reduction.umap`
 
 | Parameter   | Config Key          | Type  | Default | Range/Choices | Description                |
 | ----------- | ------------------- | ----- | ------- | ------------- | -------------------------- |
@@ -252,7 +252,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### MinMaxScaling
 
 **Class**: `MinMaxScaling`
-**Module**: `autoqml_lib.search_space.preprocessing.rescaling.min_max_scaling`
+**Module**: `autoqml.search_space.preprocessing.rescaling.min_max_scaling`
 
 | Parameter     | Config Key                     | Type  | Default | Range/Choices | Description        |
 | ------------- | ------------------------------ | ----- | ------- | ------------- | ------------------ |
@@ -261,7 +261,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### MinMaxScalingForQuantumKernel
 
 **Class**: `MinMaxScalingForQuantumKernel`
-**Module**: `autoqml_lib.search_space.preprocessing.rescaling.min_max_scaling`
+**Module**: `autoqml.search_space.preprocessing.rescaling.min_max_scaling`
 
 | Parameter     | Config Key                                     | Type  | Default     | Range/Choices | Description        |
 | ------------- | ---------------------------------------------- | ----- | ----------- | ------------- | ------------------ |
@@ -270,7 +270,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### Normalization
 
 **Class**: `Normalization`
-**Module**: `autoqml_lib.search_space.preprocessing.rescaling.normalization`
+**Module**: `autoqml.search_space.preprocessing.rescaling.normalization`
 
 | Parameter | Config Key            | Type | Default | Range/Choices       | Description        |
 | --------- | --------------------- | ---- | ------- | ------------------- | ------------------ |
@@ -279,7 +279,7 @@ A specialized component for converting time series data into a tabular format. T
 ###### StandardScaling
 
 **Class**: `StandardScaling`
-**Module**: `autoqml_lib.search_space.preprocessing.rescaling.standard_scaling`
+**Module**: `autoqml.search_space.preprocessing.rescaling.standard_scaling`
 
 | Parameter | Config Key                   | Type | Default | Range/Choices | Description            |
 | --------- | ---------------------------- | ---- | ------- | ------------- | ---------------------- |
@@ -295,7 +295,7 @@ Components for building classification models, including both classical and quan
 ##### DecisionTreeClassifier
 
 **Class**: `DecisionTreeClassifier`
-**Module**: `autoqml_lib.search_space.classification.classic.decision_tree_classifier`
+**Module**: `autoqml.search_space.classification.classic.decision_tree_classifier`
 
 | Parameter         | Config Key                                  | Type  | Default | Range/Choices                   | Description                          |
 | ----------------- | ------------------------------------------- | ----- | ------- | ------------------------------- | ------------------------------------ |
@@ -308,7 +308,7 @@ Components for building classification models, including both classical and quan
 ##### GaussianProcessClassifier
 
 **Class**: `GaussianProcessClassifier`
-**Module**: `autoqml_lib.search_space.classification.classic.gaussian_process_classifier`
+**Module**: `autoqml.search_space.classification.classic.gaussian_process_classifier`
 
 | Parameter   | Config Key                               | Type | Default       | Range/Choices                   | Description             |
 | ----------- | ---------------------------------------- | ---- | ------------- | ------------------------------- | ----------------------- |
@@ -319,7 +319,7 @@ Components for building classification models, including both classical and quan
 ##### LogisticRegressor
 
 **Class**: `LogisticRegressor`
-**Module**: `autoqml_lib.search_space.classification.classic.logistic_regression_classifier`
+**Module**: `autoqml.search_space.classification.classic.logistic_regression_classifier`
 
 | Parameter     | Config Key                         | Type  | Default | Range/Choices                    | Description                     |
 | ------------- | ---------------------------------- | ----- | ------- | -------------------------------- | ------------------------------- |
@@ -332,7 +332,7 @@ Components for building classification models, including both classical and quan
 ##### Perceptron
 
 **Class**: `Perceptron`
-**Module**: `autoqml_lib.search_space.classification.classic.perceptron`
+**Module**: `autoqml.search_space.classification.classic.perceptron`
 
 | Parameter | Config Key            | Type  | Default | Range/Choices      | Description             |
 | --------- | --------------------- | ----- | ------- | ------------------ | ----------------------- |
@@ -342,7 +342,7 @@ Components for building classification models, including both classical and quan
 ##### RandomForestClassifier
 
 **Class**: `RandomForestClassifier`
-**Module**: `autoqml_lib.search_space.classification.classic.random_forest_classifier`
+**Module**: `autoqml.search_space.classification.classic.random_forest_classifier`
 
 | Parameter         | Config Key                                  | Type  | Default | Range/Choices                   | Description               |
 | ----------------- | ------------------------------------------- | ----- | ------- | ------------------------------- | ------------------------- |
@@ -354,7 +354,7 @@ Components for building classification models, including both classical and quan
 ##### RidgeClassifier
 
 **Class**: `RidgeClassifier`
-**Module**: `autoqml_lib.search_space.classification.classic.ridge_classifier`
+**Module**: `autoqml.search_space.classification.classic.ridge_classifier`
 
 | Parameter     | Config Key                       | Type  | Default | Range/Choices    | Description             |
 | ------------- | -------------------------------- | ----- | ------- | ---------------- | ----------------------- |
@@ -364,7 +364,7 @@ Components for building classification models, including both classical and quan
 ##### SVC
 
 **Class**: `SVC`
-**Module**: `autoqml_lib.search_space.classification.classic.svc`
+**Module**: `autoqml.search_space.classification.classic.svc`
 
 | Parameter | Config Key    | Type  | Default | Range/Choices              | Description              |
 | --------- | ------------- | ----- | ------- | -------------------------- | ------------------------ |
@@ -376,7 +376,7 @@ Components for building classification models, including both classical and quan
 ##### QGPC
 
 **Class**: `QGPC`
-**Module**: `autoqml_lib.search_space.classification.quantum.qgpc`
+**Module**: `autoqml.search_space.classification.quantum.qgpc`
 
 | Parameter  | Config Key         | Type | Default | Range/Choices | Description      |
 | ---------- | ------------------ | ---- | ------- | ------------- | ---------------- |
@@ -401,7 +401,7 @@ Components for building classification models, including both classical and quan
 ##### QNNClassifier
 
 **Class**: `QNNClassifier`
-**Module**: `autoqml_lib.search_space.classification.quantum.qnnc`
+**Module**: `autoqml.search_space.classification.quantum.qnnc`
 
 | Parameter      | Config Key                      | Type  | Default | Range/Choices                        | Description      |
 | -------------- | ------------------------------- | ----- | ------- | ------------------------------------ | ---------------- |
@@ -430,7 +430,7 @@ Components for building classification models, including both classical and quan
 ##### QRCClassifier
 
 **Class**: `QRCClassifier`
-**Module**: `autoqml_lib.search_space.classification.quantum.qrcc`
+**Module**: `autoqml.search_space.classification.quantum.qrcc`
 
 | Parameter      | Config Key                      | Type | Default         | Range/Choices                      | Description         |
 | -------------- | ------------------------------- | ---- | --------------- | ---------------------------------- | ------------------- |
@@ -452,7 +452,7 @@ Components for building classification models, including both classical and quan
 ##### QSVC
 
 **Class**: `QSVC`
-**Module**: `autoqml_lib.search_space.classification.quantum.qsvc`
+**Module**: `autoqml.search_space.classification.quantum.qsvc`
 
 | Parameter        | Config Key               | Type            | Default                    | Range/Choices                     | Description                            |
 | ---------------- | ------------------------ | --------------- | -------------------------- | --------------------------------- | -------------------------------------- |
@@ -476,7 +476,7 @@ Components for building regression models, including both classical and quantum 
 #### DecisionTreeRegressor
 
 **Class**: `DecisionTreeRegressor`
-**Module**: `autoqml_lib.search_space.regression.classic.decision_tree_regressor`
+**Module**: `autoqml.search_space.regression.classic.decision_tree_regressor`
 
 | Parameter         | Config Key                                 | Type  | Default         | Range/Choices                                                  | Description                        |
 | ----------------- | ------------------------------------------ | ----- | --------------- | -------------------------------------------------------------- | ---------------------------------- |
@@ -489,7 +489,7 @@ Components for building regression models, including both classical and quantum 
 #### GaussianProcessRegressor
 
 **Class**: `GaussianProcessRegressor`
-**Module**: `autoqml_lib.search_space.regression.classic.gaussian_process_regressor`
+**Module**: `autoqml.search_space.regression.classic.gaussian_process_regressor`
 
 | Parameter   | Config Key                              | Type  | Default | Range/Choices                   | Description                              |
 | ----------- | --------------------------------------- | ----- | ------- | ------------------------------- | ---------------------------------------- |
@@ -500,7 +500,7 @@ Components for building regression models, including both classical and quantum 
 #### KernelRidge
 
 **Class**: `KernelRidge`
-**Module**: `autoqml_lib.search_space.regression.classic.kernel_ridge`
+**Module**: `autoqml.search_space.regression.classic.kernel_ridge`
 
 | Parameter | Config Key            | Type  | Default | Range/Choices              | Description                          |
 | --------- | --------------------- | ----- | ------- | -------------------------- | ------------------------------------ |
@@ -513,7 +513,7 @@ Components for building regression models, including both classical and quantum 
 #### LinearRegressor
 
 **Class**: `LinearRegressor`
-**Module**: `autoqml_lib.search_space.regression.classic.linear_regressor`
+**Module**: `autoqml.search_space.regression.classic.linear_regressor`
 
 | Parameter     | Config Key                       | Type | Default | Range/Choices | Description                 |
 | ------------- | -------------------------------- | ---- | ------- | ------------- | --------------------------- |
@@ -523,7 +523,7 @@ Components for building regression models, including both classical and quantum 
 #### NNRegressor
 
 **Class**: `NNRegressor`
-**Module**: `autoqml_lib.search_space.regression.classic.nnr`
+**Module**: `autoqml.search_space.regression.classic.nnr`
 
 | Parameter        | Config Key                      | Type | Default    | Range/Choices                                    | Description              |
 | ---------------- | ------------------------------- | ---- | ---------- | ------------------------------------------------ | ------------------------ |
@@ -537,7 +537,7 @@ Components for building regression models, including both classical and quantum 
 #### RandomForestRegressor
 
 **Class**: `RandomForestRegressor`
-**Module**: `autoqml_lib.search_space.regression.classic.random_forest_regressor`
+**Module**: `autoqml.search_space.regression.classic.random_forest_regressor`
 
 | Parameter         | Config Key                                 | Type  | Default         | Range/Choices                                                  | Description               |
 | ----------------- | ------------------------------------------ | ----- | --------------- | -------------------------------------------------------------- | ------------------------- |
@@ -550,7 +550,7 @@ Components for building regression models, including both classical and quantum 
 #### SVR
 
 **Class**: `SVR`
-**Module**: `autoqml_lib.search_space.regression.classic.svr`
+**Module**: `autoqml.search_space.regression.classic.svr`
 
 | Parameter | Config Key | Type  | Default | Range/Choices    | Description              |
 | --------- | ---------- | ----- | ------- | ---------------- | ------------------------ |
@@ -561,7 +561,7 @@ Components for building regression models, including both classical and quantum 
 #### QNNRegressor
 
 **Class**: `QNNRegressor`
-**Module**: `autoqml_lib.search_space.regression.quantum.qnnr`
+**Module**: `autoqml.search_space.regression.quantum.qnnr`
 
 | Parameter        | Config Key                       | Type  | Default          | Range/Choices                                          | Description                     |
 | ---------------- | -------------------------------- | ----- | ---------------- | ------------------------------------------------------ | ------------------------------- |
@@ -582,7 +582,7 @@ Components for building regression models, including both classical and quantum 
 #### QRCRegressor
 
 **Class**: `QRCRegressor`
-**Module**: `autoqml_lib.search_space.regression.quantum.qrc_regressor`
+**Module**: `autoqml.search_space.regression.quantum.qrc_regressor`
 
 | Parameter        | Config Key                       | Type  | Default         | Range/Choices      | Description                         |
 | ---------------- | -------------------------------- | ----- | --------------- | ------------------ | ----------------------------------- |
@@ -600,7 +600,7 @@ Components for building regression models, including both classical and quantum 
 #### QSVR
 
 **Class**: `QSVR`
-**Module**: `autoqml_lib.search_space.regression.quantum.qsvr`
+**Module**: `autoqml.search_space.regression.quantum.qsvr`
 
 | Parameter        | Config Key               | Type            | Default                    | Range/Choices                                           | Description                            |
 | ---------------- | ------------------------ | --------------- | -------------------------- | ------------------------------------------------------- | -------------------------------------- |
@@ -618,7 +618,7 @@ Components for building regression models, including both classical and quantum 
 #### QKRR
 
 **Class**: `QKRR`
-**Module**: `autoqml_lib.search_space.regression.quantum.qkrr`
+**Module**: `autoqml.search_space.regression.quantum.qkrr`
 
 | Parameter        | Config Key               | Type            | Default                    | Range/Choices                                           | Description                            |
 | ---------------- | ------------------------ | --------------- | -------------------------- | ------------------------------------------------------- | -------------------------------------- |
@@ -636,7 +636,7 @@ Components for building regression models, including both classical and quantum 
 #### QGPR
 
 **Class**: `QGPR`
-**Module**: `autoqml_lib.search_space.regression.quantum.qgpr`
+**Module**: `autoqml.search_space.regression.quantum.qgpr`
 
 | Parameter        | Config Key               | Type            | Default                    | Range/Choices                                           | Description                            |
 | ---------------- | ------------------------ | --------------- | -------------------------- | ------------------------------------------------------- | -------------------------------------- |
@@ -658,9 +658,9 @@ Components for building regression models, including both classical and quantum 
 
 ```python
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
-    'autoqml_lib.search_space.regression.svr.SVR__kernel': 'rbf',
-    'autoqml_lib.search_space.regression.svr.SVR__C': 1.0,
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.regression.svr.SVR__kernel': 'rbf',
+    'autoqml.search_space.regression.svr.SVR__C': 1.0,
 }
 ```
 
@@ -668,10 +668,10 @@ config = {
 
 ```python
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
-    'autoqml_lib.search_space.preprocessing.encoding.EncoderChoice__choice': 'one-hot',
-    'autoqml_lib.search_space.preprocessing.encoding.one_hot.OneHotEncoder__max_categories': 17,
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.preprocessing.encoding.EncoderChoice__choice': 'one-hot',
+    'autoqml.search_space.preprocessing.encoding.one_hot.OneHotEncoder__max_categories': 17,
 }
 ```
 
@@ -681,9 +681,9 @@ config = {
 
 ```python
 config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
-    'autoqml_lib.search_space.data_loading.timeseries.TabularizeTimeSeries__tile_size_x': 7,
-    'autoqml_lib.search_space.data_loading.timeseries.TabularizeTimeSeries__tile_size_y': 30,
+    'autoqml.search_space.classification.ClassificationChoice__choice': 'random_forest_classifier',
+    'autoqml.search_space.data_loading.timeseries.TabularizeTimeSeries__tile_size_x': 7,
+    'autoqml.search_space.data_loading.timeseries.TabularizeTimeSeries__tile_size_y': 30,
 }
 ```
 
@@ -691,10 +691,10 @@ config = {
 
 ```python
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'qsvr',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
-    'autoqml_lib.search_space.preprocessing.dim_reduction.DimReductionChoice__choice': 'pca',
-    'autoqml_lib.search_space.preprocessing.dim_reduction.pca.PCA__n_components': 10,
+    'autoqml.search_space.regression.RegressionChoice__choice': 'qsvr',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.preprocessing.dim_reduction.DimReductionChoice__choice': 'pca',
+    'autoqml.search_space.preprocessing.dim_reduction.pca.PCA__n_components': 10,
 }
 ```
 
@@ -705,8 +705,8 @@ config = {
 ```python
 # Only override specific parameters
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
-    'autoqml_lib.search_space.regression.svr.SVR__C': 2.0,  # Override default C value
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.regression.svr.SVR__C': 2.0,  # Override default C value
 }
 ```
 
@@ -715,9 +715,9 @@ config = {
 ```python
 # Select components for each pipeline stage
 config = {
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
-    'autoqml_lib.search_space.preprocessing.encoding.EncoderChoice__choice': 'one-hot',
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'standard_scaling',
+    'autoqml.search_space.preprocessing.encoding.EncoderChoice__choice': 'one-hot',
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
 }
 ```
 
@@ -730,7 +730,7 @@ config = {
    ```python
    # Error: 'svm' is not a valid choice
    config = {
-       'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svm',  # Should be 'svr'
+       'autoqml.search_space.regression.RegressionChoice__choice': 'svm',  # Should be 'svr'
    }
    ```
 
@@ -739,7 +739,7 @@ config = {
    ```python
    # Error: negative C value
    config = {
-       'autoqml_lib.search_space.regression.svr.SVR__C': -1.0,  # Must be positive
+       'autoqml.search_space.regression.svr.SVR__C': -1.0,  # Must be positive
    }
    ```
 
@@ -747,8 +747,8 @@ config = {
    ```python
    # Error: missing required choice parameter
    config = {
-       'autoqml_lib.search_space.preprocessing.encoding.one_hot.OneHotEncoder__max_categories': 17,
-       # Missing: 'autoqml_lib.search_space.preprocessing.encoding.EncoderChoice__choice'
+       'autoqml.search_space.preprocessing.encoding.one_hot.OneHotEncoder__max_categories': 17,
+       # Missing: 'autoqml.search_space.preprocessing.encoding.EncoderChoice__choice'
    }
    ```
 
@@ -789,12 +789,12 @@ config = {
 ### Basic Workflow Integration
 
 ```python
-from autoqml_lib.automl import AutoQMLTabularRegression
-from autoqml_lib.messages import AutoQMLFitCommand
+from autoqml import AutoQMLTabularRegression
+from autoqml import AutoQMLFitCommand
 
 # Create configuration
 config = {
-    'autoqml_lib.search_space.regression.RegressionChoice__choice': 'svr',
+    'autoqml.search_space.regression.RegressionChoice__choice': 'svr',
 }
 
 # Initialize AutoQML
@@ -872,7 +872,7 @@ One way to optimize the size of the data used for training is to downsample the 
 ### Resampling
 
 **Class**: `Resampling`
-**Module**: `autoqml_lib.search_space.preprocessing.downsampling.resampling`
+**Module**: `autoqml.search_space.preprocessing.downsampling.resampling`
 
 | Parameter | Config Key              | Type | Default | Range/Choices  | Description                            |
 | --------- | ----------------------- | ---- | ------- | -------------- | -------------------------------------- |
@@ -881,7 +881,7 @@ One way to optimize the size of the data used for training is to downsample the 
 ## NoOp
 
 **Class**: `NoOp`
-**Module**: `autoqml_lib.search_space.preprocessing.no_op`
+**Module**: `autoqml.search_space.preprocessing.no_op`
 
 A pass-through transformer that returns the input data unchanged. Useful as a placeholder, for example in preprocessing pipelines.
 
@@ -889,7 +889,7 @@ A pass-through transformer that returns the input data unchanged. Useful as a pl
 
 If you encounter issues not covered in this guide:
 
-1. Check the [GitHub Issues](https://github.com/AutoQML/autoqml-lib/issues) for similar problems
+1. Check the [GitHub Issues](https://github.com/AutoQML/autoqml/issues) for similar problems
 2. Review the API documentation for correct usage
 3. Create a new issue with:
    - Full error traceback

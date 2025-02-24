@@ -10,8 +10,8 @@ Example configuration:
 
 ```python
 custom_config = {
-    'autoqml_lib.search_space.classification.ClassificationChoice__choice': 'qsvc',
-    'autoqml_lib.search_space.preprocessing.rescaling.RescalingChoice__choice': 'min_max_scaling'
+    'autoqml.search_space.classification.ClassificationChoice__choice': 'qsvc',
+    'autoqml.search_space.preprocessing.rescaling.RescalingChoice__choice': 'min_max_scaling'
 }
 ```
 

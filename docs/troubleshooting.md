@@ -74,7 +74,7 @@ This guide helps you resolve common issues you might encounter when using AutoQM
 
 If you encounter issues not covered in this guide:
 
-1. Check the [GitHub Issues](https://github.com/AutoQML/autoqml-lib/issues) for similar problems
+1. Check the [GitHub Issues](https://github.com/AutoQML/autoqml/issues) for similar problems
 2. Review the API documentation for correct usage
 3. Join our community discussions
 4. Create a new issue with:

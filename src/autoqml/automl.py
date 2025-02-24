@@ -80,7 +80,7 @@ def _setup_logging(filename: str = None) -> None:
     logging.getLogger("executor").disabled = True
 
     # Get the logger instance
-    logger = logging.getLogger("autoqml_lib.optimizer.optimizer")
+    logger = logging.getLogger("autoqml.optimizer.optimizer")
 
     # Reset the logger by removing all handlers and filters
     for handler in list(logger.handlers):
