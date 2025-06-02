@@ -2,7 +2,7 @@ from typing import Union
 
 from optuna import Trial
 from sklearn.base import BaseEstimator, RegressorMixin
-from squlearn.kernel.matrix.projected_quantum_kernel import OuterKernelBase
+from squlearn.kernel.lowlevel_kernel.projected_quantum_kernel import OuterKernelBase
 from squlearn.observables.observable_base import ObservableBase
 
 from autoqml.constants import InputData, TargetData

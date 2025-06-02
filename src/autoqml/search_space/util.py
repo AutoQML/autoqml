@@ -19,9 +19,9 @@ from squlearn.encoding_circuit import (
 from squlearn.encoding_circuit.encoding_circuit_base import EncodingCircuitBase
 from squlearn.observables import *
 from squlearn.observables.observable_base import ObservableBase
-from squlearn.kernel.matrix.kernel_matrix_base import KernelMatrixBase
-from squlearn.kernel.matrix.projected_quantum_kernel import OuterKernelBase
-from squlearn.kernel.matrix import ProjectedQuantumKernel, FidelityKernel
+from squlearn.kernel.lowlevel_kernel.kernel_matrix_base import KernelMatrixBase
+from squlearn.kernel.lowlevel_kernel.projected_quantum_kernel import OuterKernelBase
+from squlearn.kernel.lowlevel_kernel import ProjectedQuantumKernel, FidelityKernel
 from squlearn.observables.observable_base import ObservableBase
 from squlearn.util.executor import Executor
 

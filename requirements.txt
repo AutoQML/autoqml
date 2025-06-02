@@ -1782,7 +1782,7 @@ sqlalchemy==2.0.32 ; python_version >= "3.9" and python_version < "3.11" \
     --hash=sha256:c41a2b9ca80ee555decc605bd3c4520cc6fef9abde8fd66b1cf65126a6922d65 \
     --hash=sha256:c750987fc876813f27b60d619b987b057eb4896b81117f73bb8d9918c14f1cad \
     --hash=sha256:e567a8793a692451f706b363ccf3c45e056b67d90ead58c3bc9471af5d212202
-squlearn==0.7.6 ; python_version >= "3.9" and python_version < "3.11" \
+squlearn==0.8.0 ; python_version >= "3.9" and python_version < "3.11" \
     --hash=sha256:cd0d37de3232deb60acc211790701a7b12741bc83f49f7c8f7085037064e7db6 \
     --hash=sha256:d8a2de07596523604d7ae6f8819cc50d14b01513ec8c3af0b62942bdb8d955fd
 sspilib==0.1.0 ; python_version >= "3.9" and python_version < "3.11" and sys_platform == "win32" \
