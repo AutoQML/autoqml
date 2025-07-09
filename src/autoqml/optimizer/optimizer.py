@@ -374,6 +374,7 @@ class RayOptimizer(Optimizer):
                 num_startup_trials,  # Default value has to be discussed
                 n_ei_candidates=24,
                 multivariate=True,
+                warn_independent_sampling=False,
                 seed=seed
             )
 
