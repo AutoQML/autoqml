@@ -77,61 +77,15 @@ class OutputControl:
     Class for switch off the output of the AutoQML library
     """
     def __init__(self):
-        self.original_stdout_fd = None
-        self.original_stderr_fd = None
-
-        self.optuna_logging = None
-        self.lightning_fabric = None
-        self.lightning_pytorch = None
-
+        from IPython.utils.io import capture_output
+        self.captured_output = capture_output(stdout=True, stderr=True, display=False)
+        
     def output_off(self):
-        """ Switch off the outputs """
-
-        self.optuna_logging = logging.getLogger("optuna").getEffectiveLevel()
-        logging.getLogger("optuna").setLevel(logging.WARNING)
-
-        self.lightning_fabric = logging.getLogger("lightning.fabric"
-                                                 ).getEffectiveLevel()
-        logging.getLogger("lightning.fabric").setLevel(logging.WARNING)
-
-        self.lightning_pytorch = logging.getLogger("lightning.pytorch"
-                                                  ).getEffectiveLevel()
-        logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)
-
-        self.original_stdout_fd = copy.copy(
-            os.dup(1)
-        )  # Save file descriptor 1 (`stdout`)
-        self.original_stderr_fd = copy.copy(
-            os.dup(2)
-        )  # Save file descriptor 2 (`stderr`)
-
-        devnull = open(os.devnull, 'w')
-        sys.stderr = devnull
-        sys.stdout = devnull
-
-        devnull = os.open(os.devnull, os.O_WRONLY)
-        os.dup2(
-            devnull, 1
-        )  # Replace file descriptor 1 (stdout) with `/dev/null`
-        os.dup2(
-            devnull, 2
-        )  # Replace file descriptor 2 (stderr) with `/dev/null`
-        os.close(devnull)
-        return self.original_stdout_fd
+        self.captured_output.__enter__()
+        return os.dup(1)
 
     def output_on(self):
-        """ Restore the outputs """
-        os.dup2(self.original_stdout_fd, 1)
-        os.close(self.original_stdout_fd)
-        os.dup2(self.original_stderr_fd, 2)
-        os.close(self.original_stderr_fd)
-        sys.stderr = sys.__stderr__
-        sys.stdout = sys.__stdout__
-
-        logging.getLogger("optuna").setLevel(self.optuna_logging)
-        logging.getLogger("lightning.fabric").setLevel(self.lightning_fabric)
-        logging.getLogger("lightning.pytorch").setLevel(self.lightning_pytorch)
-
+        self.captured_output.__exit__(None, None, None)
 
 class MyOptunaSearch(OptunaSearch):
     def __init__(self, func_kwargs: Dict, *args, **kwargs):
