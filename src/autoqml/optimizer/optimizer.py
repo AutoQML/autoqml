@@ -8,6 +8,7 @@ import queue
 import multiprocessing
 from typing import Any, Callable, Dict, Optional, Union
 
+import optuna
 import ray
 import queue
 import copy
@@ -34,6 +35,41 @@ from autoqml.constants import InputData, TargetData
 from autoqml.messages import AutoQMLFitCommand
 from autoqml.optimizer import evaluation, metric
 from autoqml.search_space import Configuration, SearchSpace
+
+
+def is_single_configuration(space_fn: Callable, func_kwargs: dict) -> bool:
+    """
+    Function for checking if there are multiple configurations available in the search space
+    Used to filter the edge case, that only a single configuration is possible
+    """
+    class StaticTrial(optuna.trial.Trial):
+        def __init__(self):
+            self._params = {}
+
+        def suggest_float(self, name, low, high, *args, **kwargs):
+            if low != high:
+                raise ValueError(f"{name} has a float range: {low} to {high}")
+            self._params[name] = low
+            return low
+
+        def suggest_int(self, name, low, high, *args, **kwargs):
+            if low != high:
+                raise ValueError(f"{name} has an int range: {low} to {high}")
+            self._params[name] = low
+            return low
+
+        def suggest_categorical(self, name, choices):
+            if len(choices) > 1:
+                raise ValueError(f"{name} has multiple categorical choices: {choices}")
+            self._params[name] = choices[0]
+            return choices[0]
+
+    try:
+        trial = StaticTrial()
+        space_fn(trial, **func_kwargs)
+        return True  # No errors → only one config
+    except ValueError:
+        return False
 
 
 class OutputControl:
@@ -268,6 +304,24 @@ class RayOptimizer(Optimizer):
             )
         else:
             raise ValueError(f"Selection method {selection} not supported")
+
+        # Check if the search space is effectively static
+        if is_single_configuration(search_space, {
+            'cmd': fit_cmd,
+            'pipeline_factory': pipeline_factory
+        }):
+            logger = logging.getLogger(__name__)
+            logger.warning("Only one configuration found in the search space. Skipping tuning.")
+            # Evaluate the single configuration once
+            fixed_trial = evaluation.Trial(
+                id='autoqml_fixed_trial_' + str(uuid.uuid4()),
+                configuration=search_space(optuna.trial.FixedTrial({}), fit_cmd, pipeline_factory),
+                loss=None,
+                budget=None,
+                duration=None
+            )
+
+            return fixed_trial.configuration
 
         output_control = OutputControl()
 
