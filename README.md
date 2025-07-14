@@ -8,7 +8,7 @@ AutoQML is a framework that adapts the principles of Automated Machine Learning 
 
 ### Quick install
 
-For simple application of `autoqml`, it is sufficient to create and activate a Python virtual environment with Python 3.9 or Python 3.10 and then install it with
+For simple application of `autoqml`, it is sufficient to create and activate a Python virtual environment with Python 3.9, Python 3.10 or Python 3.12 and then install it with
 
 ``` bash
 $ pip install .
@@ -29,7 +29,7 @@ Pip might be easier to use in containerized and/or automated installation enviro
 
 #### Setup Guide with `pip`
 
-1. Create and activate a Python virtual environment with Python 3.9 or Python 3.10. If you omit this step, the `autoqml` dependencies will be installed in your system Python. This might make sense when installing in a Docker container or similar environments. However, for desktop installations, it is highly recommended to install the dependencies in a dedicated virtual environment.
+1. Create and activate a Python virtual environment with Python 3.9,Python 3.10 or Python 3.12. If you omit this step, the `autoqml` dependencies will be installed in your system Python. This might make sense when installing in a Docker container or similar environments. However, for desktop installations, it is highly recommended to install the dependencies in a dedicated virtual environment.
 
 2. `cd` into the `autoqml` directory and install the dependencies into the active Python virtual environment using `pip`:
 
@@ -52,7 +52,7 @@ After Poetry has been installed, please `cd` into your `autoqml` directory. Plea
 ```bash
 $ poetry install
 ```
-A prerequisite for the dependency installation is the availability of Python 3.9 or 3.10 on your system's path, so that Poetry can use it to create the new virtual environment. The required Python versions can be found in `pyproject.toml` under `[tool.poetry.dependencies]`.
+A prerequisite for the dependency installation is the availability of Python 3.9, 3.10, 3.12 on your system's path, so that Poetry can use it to create the new virtual environment. The required Python versions can be found in `pyproject.toml` under `[tool.poetry.dependencies]`.
 
 3. Activate the Python virtual environment for `autoqml`.
 Still in the project directory, please activate the Python virtual environment using Poetry:
