@@ -13,8 +13,8 @@ import ray
 import queue
 import copy
 import os
-import sys
 from functools import partial
+from IPython.utils.io import capture_output
 from optuna import Trial as OptunaTrial
 from optuna.trial import TrialState
 from optuna.samplers import TPESampler
@@ -77,7 +77,6 @@ class OutputControl:
     Class for switch off the output of the AutoQML library
     """
     def __init__(self):
-        from IPython.utils.io import capture_output
         self.captured_output = capture_output(stdout=True, stderr=True, display=False)
         
     def output_off(self):
