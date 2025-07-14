@@ -29,19 +29,19 @@ classifiers = [
     "Operating System :: POSIX :: Linux"
 ]
 dependencies = [
-    "pandas (>=2.0.2,<4.0.0)",
-    "ray[tune] (>=2.47.0,<3.0.0)",
-    "squlearn (>=0.8.3)",
-    "rustworkx (>=0.16.0)",
+    "pandas (>=2.0.2,<3.0.0)",
+    "ray[tune] (>=2.4.0,<3.0.0)",
+    "squlearn (>=0.8.2)",
+    "rustworkx (>=0.12.0)",
     "tune-sklearn (>=0.4.5,<1.0.0)",
-    "scikit-learn (>=1.7.0,<2.0.0)",
-    "protobuf (>=4.25.0,<5.0.0)",
-    "umap-learn (>=0.5.9,<1.0.0)",
-    "optuna (>=3.6.0,<4.0.0)",
+    "scikit-learn (>=1.2.2,<2.0.0)",
+    "protobuf (>=3.20,<4.0)",
+    "umap-learn (>=0.5.3,<1.0.0)",
+    "optuna (>=3.3.0,<4.0.0)",
     "matplotlib (>=3.8.1,<4.0.0)",
-    "dill (>=0.3.8,<1.0.0)",
-    "lightning (>=2.3.0,<3.0.0)",
-    "numpy (<2.0)",
+    "dill (>=0.3.7,<1.0.0)",
+    "lightning (>=2.2.0.post0,<3.0.0)",
+    "numpy (<2.0)"
 ]
 requires-python=">=3.9,<3.13"
 
