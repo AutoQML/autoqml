@@ -35,17 +35,17 @@ class TestSearchSpace(TestCase):
                     'constant'
             }
         )
-        self.assertEquals(set(cs.keys()), {'choice', 'constant__constant'})
+        self.assertEqual(set(cs.keys()), {'choice', 'constant__constant'})
 
         hps1: Configuration = {'choice': 'mean'}
         choice.set_params(**hps1)
-        self.assertEquals(type(choice.estimator), MeanImputation)
+        self.assertEqual(type(choice.estimator), MeanImputation)
 
         hps2: Configuration = {'choice': 'constant', 'constant__constant': 2}
         choice.set_params(**hps2)
-        self.assertEquals(type(choice.estimator), ConstantImputation)
+        self.assertEqual(type(choice.estimator), ConstantImputation)
         # noinspection PyUnresolvedReferences
-        self.assertEquals(choice.estimator.constant, 2)
+        self.assertEqual(choice.estimator.constant, 2)
 
     def test_pipeline_quantum(self):
         pipeline = TunablePipeline(
@@ -68,7 +68,7 @@ class TestSearchSpace(TestCase):
                     "qsvc"
             },
         )
-        self.assertEquals(
+        self.assertEqual(
             set(cs.keys()), {
                 'imputation__choice',
                 'classification__choice',
@@ -93,6 +93,6 @@ class TestSearchSpace(TestCase):
             'classification__svc__C': 1.25
         }
         pipeline.set_params(**hps)
-        self.assertEquals(type(pipeline.steps[0][1].estimator), MeanImputation)
-        self.assertEquals(type(pipeline.steps[1][1].estimator), SVC)
-        self.assertEquals(pipeline.steps[1][1].estimator.C, 1.25)
+        self.assertEqual(type(pipeline.steps[0][1].estimator), MeanImputation)
+        self.assertEqual(type(pipeline.steps[1][1].estimator), SVC)
+        self.assertEqual(pipeline.steps[1][1].estimator.C, 1.25)
