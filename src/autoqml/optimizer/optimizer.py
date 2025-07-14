@@ -8,12 +8,13 @@ import queue
 import multiprocessing
 from typing import Any, Callable, Dict, Optional, Union
 
+import optuna
 import ray
 import queue
 import copy
 import os
-import sys
 from functools import partial
+from IPython.utils.io import capture_output
 from optuna import Trial as OptunaTrial
 from optuna.trial import TrialState
 from optuna.samplers import TPESampler
@@ -36,66 +37,54 @@ from autoqml.optimizer import evaluation, metric
 from autoqml.search_space import Configuration, SearchSpace
 
 
+def is_single_configuration(space_fn: Callable, func_kwargs: dict) -> bool:
+    """
+    Function for checking if there are multiple configurations available in the search space
+    Used to filter the edge case, that only a single configuration is possible
+    """
+    class StaticTrial(optuna.trial.Trial):
+        def __init__(self):
+            self._params = {}
+
+        def suggest_float(self, name, low, high, *args, **kwargs):
+            if low != high:
+                raise ValueError(f"{name} has a float range: {low} to {high}")
+            self._params[name] = low
+            return low
+
+        def suggest_int(self, name, low, high, *args, **kwargs):
+            if low != high:
+                raise ValueError(f"{name} has an int range: {low} to {high}")
+            self._params[name] = low
+            return low
+
+        def suggest_categorical(self, name, choices):
+            if len(choices) > 1:
+                raise ValueError(f"{name} has multiple categorical choices: {choices}")
+            self._params[name] = choices[0]
+            return choices[0]
+
+    try:
+        trial = StaticTrial()
+        space_fn(trial, **func_kwargs)
+        return True  # No errors → only one config
+    except ValueError:
+        return False
+
+
 class OutputControl:
     """ 
     Class for switch off the output of the AutoQML library
     """
     def __init__(self):
-        self.original_stdout_fd = None
-        self.original_stderr_fd = None
-
-        self.optuna_logging = None
-        self.lightning_fabric = None
-        self.lightning_pytorch = None
-
+        self.captured_output = capture_output(stdout=True, stderr=True, display=False)
+        
     def output_off(self):
-        """ Switch off the outputs """
-
-        self.optuna_logging = logging.getLogger("optuna").getEffectiveLevel()
-        logging.getLogger("optuna").setLevel(logging.WARNING)
-
-        self.lightning_fabric = logging.getLogger("lightning.fabric"
-                                                 ).getEffectiveLevel()
-        logging.getLogger("lightning.fabric").setLevel(logging.WARNING)
-
-        self.lightning_pytorch = logging.getLogger("lightning.pytorch"
-                                                  ).getEffectiveLevel()
-        logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)
-
-        self.original_stdout_fd = copy.copy(
-            os.dup(1)
-        )  # Save file descriptor 1 (`stdout`)
-        self.original_stderr_fd = copy.copy(
-            os.dup(2)
-        )  # Save file descriptor 2 (`stderr`)
-
-        devnull = open(os.devnull, 'w')
-        sys.stderr = devnull
-        sys.stdout = devnull
-
-        devnull = os.open(os.devnull, os.O_WRONLY)
-        os.dup2(
-            devnull, 1
-        )  # Replace file descriptor 1 (stdout) with `/dev/null`
-        os.dup2(
-            devnull, 2
-        )  # Replace file descriptor 2 (stderr) with `/dev/null`
-        os.close(devnull)
-        return self.original_stdout_fd
+        self.captured_output.__enter__()
+        return os.dup(1)
 
     def output_on(self):
-        """ Restore the outputs """
-        os.dup2(self.original_stdout_fd, 1)
-        os.close(self.original_stdout_fd)
-        os.dup2(self.original_stderr_fd, 2)
-        os.close(self.original_stderr_fd)
-        sys.stderr = sys.__stderr__
-        sys.stdout = sys.__stdout__
-
-        logging.getLogger("optuna").setLevel(self.optuna_logging)
-        logging.getLogger("lightning.fabric").setLevel(self.lightning_fabric)
-        logging.getLogger("lightning.pytorch").setLevel(self.lightning_pytorch)
-
+        self.captured_output.__exit__(None, None, None)
 
 class MyOptunaSearch(OptunaSearch):
     def __init__(self, func_kwargs: Dict, *args, **kwargs):
@@ -269,6 +258,24 @@ class RayOptimizer(Optimizer):
         else:
             raise ValueError(f"Selection method {selection} not supported")
 
+        # Check if the search space is effectively static
+        if is_single_configuration(search_space, {
+            'cmd': fit_cmd,
+            'pipeline_factory': pipeline_factory
+        }):
+            logger = logging.getLogger(__name__)
+            logger.warning("Only one configuration found in the search space. Skipping tuning.")
+            # Evaluate the single configuration once
+            fixed_trial = evaluation.Trial(
+                id='autoqml_fixed_trial_' + str(uuid.uuid4()),
+                configuration=search_space(optuna.trial.FixedTrial({}), fit_cmd, pipeline_factory),
+                loss=None,
+                budget=None,
+                duration=None
+            )
+
+            return fixed_trial.configuration
+
         output_control = OutputControl()
 
         if fit_cmd.verbosity < 2:
@@ -374,6 +381,7 @@ class RayOptimizer(Optimizer):
                 num_startup_trials,  # Default value has to be discussed
                 n_ei_candidates=24,
                 multivariate=True,
+                warn_independent_sampling=False,
                 seed=seed
             )
 
