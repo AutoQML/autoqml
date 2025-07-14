@@ -78,12 +78,28 @@ class OutputControl:
     """
     def __init__(self):
         self.captured_output = capture_output(stdout=True, stderr=True, display=False)
+        self.optuna_logging = None
+        self.lightning_fabric = None
+        self.lightning_pytorch = None
         
     def output_off(self):
         self.captured_output.__enter__()
+        self.optuna_logging = logging.getLogger("optuna").getEffectiveLevel()
+        logging.getLogger("optuna").setLevel(logging.WARNING)
+
+        self.lightning_fabric = logging.getLogger("lightning.fabric"
+                                                 ).getEffectiveLevel()
+        logging.getLogger("lightning.fabric").setLevel(logging.WARNING)
+
+        self.lightning_pytorch = logging.getLogger("lightning.pytorch"
+                                                  ).getEffectiveLevel()
+        logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)
         return os.dup(1)
 
     def output_on(self):
+        logging.getLogger("optuna").setLevel(self.optuna_logging)
+        logging.getLogger("lightning.fabric").setLevel(self.lightning_fabric)
+        logging.getLogger("lightning.pytorch").setLevel(self.lightning_pytorch)
         self.captured_output.__exit__(None, None, None)
 
 class MyOptunaSearch(OptunaSearch):
